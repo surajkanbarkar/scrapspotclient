@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import Toast from "../Common/Snackbar";
+import { BRANDNAME } from "../../Services/Utils";
 
 const Signup = () => {
   const navigate = useNavigate();
@@ -17,6 +18,10 @@ const Signup = () => {
     setSnackbarMessage('Sign-in successful!');
     setSnackbarSeverity('success');
     setSnackbarOpen(true);
+    setTimeout(()=>{
+      navigate("/dashboard");
+    }, 2000)
+    
 
     // try {
     //   const response = await mockSignIn();
@@ -49,7 +54,7 @@ const Signup = () => {
       />
       <div className="md-container mb-3">
         <div className="header-div">
-          <h1>Scrap Spot</h1>
+          <h1>{BRANDNAME}</h1>
         </div>
         <h3>Sign up</h3>
         <form>
