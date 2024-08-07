@@ -1,11 +1,14 @@
-import React from 'react';
+import React, { useState } from 'react';
 import '../.././Static/Dashboard.css';
-import Sidebar from './Sidebar';
+import CompanySidebar from '../Common/CompanySidebar';
+import { useSelector } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
 
-const Dashboard = () => {
+const CompanyDashboard = () => {
+  
   return (
     <div className='d-flex'>
-    <Sidebar/>
+    <CompanySidebar/>
     <div className='container'>
     <div className="dashboard-content">
         
@@ -52,4 +55,4 @@ const Dashboard = () => {
   );
 };
 
-export default Dashboard;
+export default CompanyDashboard;

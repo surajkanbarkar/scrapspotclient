@@ -7,17 +7,13 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faBoxOpen,
   faCreditCard,
-  faEnvelope,
   faHome,
-  faInfoCircle,
-  faStar,
   faTachometerAlt,
-  faTags,
   faUser,
 } from "@fortawesome/free-solid-svg-icons";
-import Dashboard from "./Dashboard";
 
-const Sidebar = () => {
+
+const CompanySidebar = () => {
   const [isOffcanvasOpen, setOffcanvasOpen] = useState(false);
 
   const toggleOffcanvas = () => {
@@ -139,4 +135,4 @@ const Sidebar = () => {
   );
 };
 
-export default Sidebar;
+export default CompanySidebar;

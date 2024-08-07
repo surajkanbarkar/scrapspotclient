@@ -1,65 +1,51 @@
-import React from "react";
-import { Link } from "react-router-dom";
+import React, { useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
 import { BRANDNAME } from "../../Services/Utils";
 import Navbar from "../Common/Navbar";
+import { Box, TextField } from "@mui/material";
 
 const ForgotPassword = () => {
+  const navigate = useNavigate();
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const [confirmPassword, setConfirmPassword] = useState('');
+
+  const handleForgotPassword = async () =>{
+    let formData = new FormData();
+    formData.append("email", email)
+    formData.append("password", password);
+    formData.append("confirmPassword", confirmPassword);
+
+    setTimeout(() => {
+      //navigate("/dashboard");
+    }, 6000);
+  }
   return (
     <>
     <Navbar />
     <div className="centered">
       <div className="sm-container mb-3">
         <div className="header-div">
-        <h1>{BRANDNAME}</h1>
+        <h2>Forgot password</h2>
         </div>
-        <h3>Forgot password</h3>
-        <form>
-          <div className="row">
+        <Box
+              sx={{ display: "flex", flexDirection: "column", gap: 2 }}
+            >
+              <TextField label="Email" variant="outlined" fullWidth value={email} onChange={(e) => setEmail(e.target.value)}/>
+              <TextField label="Password" variant="outlined" fullWidth value={password} onChange={(e) =>setPassword(e.target.value)}/>
+              <TextField label="Comfirm password" variant="outlined" fullWidth value={confirmPassword} onChange={(e) => setConfirmPassword(e.target.value)}/>
+              <div className="row">
             <div className="col-md-12">
-              <input
-                type="text"
-                className="form-control"
-                id="txtEmail"
-                value=""
-                placeholder="Email"
-              />
-            </div>
-          </div>
-          <div className="row">
-            <div className="col-md-12">
-              <input
-                type="text"
-                className="form-control"
-                id="txtPassword"
-                value=""
-                placeholder="Password"
-              />
-            </div>
-          </div>
-          <div className="row">
-            <div className="col-md-12">
-              <input
-                type="text"
-                className="form-control"
-                id="txtConfirmPass"
-                value=""
-                placeholder="Confirm password"
-              />
-            </div>
-          </div>
-          <div className="row">
-            <div className="col-md-12">
-              <button type="submit" className="btn btn-primary w-100 mt-4">
+              <button type="button" className="btn btn-primary w-100 mt-4" onClick={handleForgotPassword}>
                 Update
               </button>
-              <br />
-              <br />
               <Link to="/signin" className="btn btn-light w-100 mt-3">
                 Back to sign in
               </Link>
             </div>
           </div>
-        </form>
+            </Box>
+          
       </div>
     </div>
     </>
