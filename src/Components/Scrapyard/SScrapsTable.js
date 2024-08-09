@@ -1,10 +1,12 @@
 import React, { useState } from "react";
-import ScrapTableRow from "./ScrapTableRow";
+import ScrapTableRow from "../Scraps/ScrapTableRow";
 import CompanySidebar from "../Common/CompanySidebar";
 import { Box, Button } from "@mui/material";
 import AddProduct from "../Company/CAddProduct";
+import ScrapyardSidebar from "../Common/ScrapyardSidebar";
+import LogoutMenu from "../Common/LogoutMenu";
 
-const ScrapsTable = () => {
+const SScrapsTable = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
 
   const handleOpenModal = () => setIsModalOpen(true);
@@ -35,15 +37,25 @@ const ScrapsTable = () => {
   ];
   return (
     <div className="d-flex">
-      <CompanySidebar />
-
+      <ScrapyardSidebar />
       <div className="container">
-      <div class="d-flex justify-content-between align-items-center">
-    <h1 class="dashboard-title">View products</h1>
-    <button className="btn btn-primary" onClick={handleOpenModal}>+ Add product</button>
+      <div className="dashboard-content">
+      <div className='float-end'>
+        <LogoutMenu />
+      </div>
+      <div className="dashboard-title">
+          <h1>Products</h1>
+          <hr/>
+        </div>
     
-  </div>
-        <table className="table table-hover">
+    <div className="d-flex justify-content-between">
+    <div className="dashboard-title">
+        <h3>Listed products</h3>
+    </div>
+        <button className="btn btn-primary h-50 mt-4" onClick={handleOpenModal}>+ Add product</button>
+    </div>
+    <div class="table-responsive">
+        <table className="table table-hover table-dark">
           <thead>
             <tr>
               <th scope="col">Sr. No.</th>
@@ -62,10 +74,12 @@ const ScrapsTable = () => {
             })}
           </tbody>
         </table>
+        </div>
         <AddProduct open={isModalOpen} onClose={handleCloseModal} />
       </div>
+    </div>
     </div>
   );
 };
 
-export default ScrapsTable;
+export default SScrapsTable;

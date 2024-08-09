@@ -13,7 +13,7 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 
 
-const CompanySidebar = () => {
+const CustomerSidebar = () => {
   const [isOffcanvasOpen, setOffcanvasOpen] = useState(false);
 
   const toggleOffcanvas = () => {
@@ -44,11 +44,11 @@ const CompanySidebar = () => {
             View products
           </Link>
           <Link
-            to="/r-payments"
+            to="/payments"
             className="list-group-item list-group-item-action text-light"
           >
             <FontAwesomeIcon icon={faCreditCard} className="icon" />
-            Payments
+            Transactions
           </Link>
           <Link
             to="/user-profile"
@@ -135,4 +135,4 @@ const CompanySidebar = () => {
   );
 };
 
-export default CompanySidebar;
+export default CustomerSidebar;

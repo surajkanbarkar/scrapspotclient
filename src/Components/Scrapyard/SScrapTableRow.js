@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
-import SScrapBuyItem from "../Scrapyard/SScrapBuyItem";
+import SScrapBuyItem from "./SScrapBuyItem";
 import { useDispatch } from "react-redux";
 import { ActionCreator } from "../../State/Actions/ActionCreator";
 
@@ -25,7 +25,7 @@ const ScrapTableRow = ({record}) => {
     return(
         <>
         <SScrapBuyItem open={isModalOpen} onClose={handleCloseModal}/>
-        <tr class="table-secondary">
+        <tr class="table-primary">
             <td>{record.srNo}</td>
             <td>{record.category}</td>
             <td>{record.productName}</td>

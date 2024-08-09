@@ -14,7 +14,7 @@ import Toast from "../Common/Snackbar";
 import { useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
 
-const Profile = () => {
+const CompanyProfile = () => {
   const navigate = useNavigate();
   const [snackbarOpen, setSnackbarOpen] = useState(false);
   const [snackbarMessage, setSnackbarMessage] = useState("");
@@ -220,4 +220,4 @@ const Profile = () => {
   );
 };
 
-export default Profile;
+export default CompanyProfile;

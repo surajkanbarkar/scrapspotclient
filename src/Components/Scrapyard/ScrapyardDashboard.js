@@ -3,16 +3,26 @@ import '../.././Static/Dashboard.css';
 import CompanySidebar from '../Common/CompanySidebar';
 import { useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
+import ScrapyardSidebar from '../Common/ScrapyardSidebar';
+import LogoutMenu from '../Common/LogoutMenu';
+
+
 
 const ScrapyardDashboard = () => {
   
   return (
     <div className='d-flex'>
-    <CompanySidebar/>
+      <ScrapyardSidebar/>
     <div className='container'>
     <div className="dashboard-content">
-        
-        <h1 className="dashboard-title">Dashboard</h1>
+      <div className='float-end'>
+        <LogoutMenu />
+      </div>
+      
+    <div className="dashboard-title">
+          <h1>Dashboard - Scrapyard</h1>
+          <hr/>
+        </div>
       <div className="row">
         <div className="col-lg-3 col-md-6 mb-4">
           <div className="card bg-light text-dark">

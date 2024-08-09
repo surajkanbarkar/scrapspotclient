@@ -1,18 +1,18 @@
 import React, { useState } from 'react';
 import '../.././Static/Dashboard.css';
-import CompanySidebar from '../Common/CompanySidebar';
 import { useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
+import CustomerSidebar from '../Common/CustomerSidebar';
 
-const CompanyDashboard = () => {
+const CustomerDashboard = () => {
   
   return (
     <div className='d-flex'>
-    <CompanySidebar/>
+    <CustomerSidebar/>
     <div className='container'>
     <div className="dashboard-content">
         
-        <h1 className="dashboard-title">Dashboard - Company</h1>
+        <h1 className="dashboard-title">Dashboard - Customer</h1>
       <div className="row">
         <div className="col-lg-3 col-md-6 mb-4">
           <div className="card bg-light text-dark">
@@ -55,4 +55,4 @@ const CompanyDashboard = () => {
   );
 };
 
-export default CompanyDashboard;
+export default CustomerDashboard;

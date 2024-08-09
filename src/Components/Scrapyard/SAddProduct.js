@@ -6,21 +6,27 @@ import {
   MenuItem,
   Modal,
   Select,
+  TextareaAutosize,
   TextField,
   Typography,
 } from "@mui/material";
 import React, { useState } from "react";
 import { useSelector } from "react-redux";
+import Toast from "../Common/Snackbar";
 
-const AddItem = ({ open, onClose }) => {
+const SAddProduct = ({ open, onClose }) => {
   let userState = useSelector((state) => state);
   const [productName, setProductName] = useState('');
   const [productCategory, setProductCategory] = useState('');
   const [productQuantity, setProductQuantity] = useState('');
   const [productPrice, setProductPrice] = useState(0);
   const [totalAmount, setTotalAmount] = useState(0);
+  const [productDescription, setProductDescription] = useState('');
+  const [snackbarOpen, setSnackbarOpen] = useState(false);
+  const [snackbarMessage, setSnackbarMessage] = useState('');
+  const [snackbarSeverity, setSnackbarSeverity] = useState('success');
 
-  const handleForgotPassword = async () =>{
+  const handleAddProduct = async () =>{
     let formData = new FormData();
     formData.append("productName", productName)
     formData.append("productCategory", productCategory)
@@ -28,7 +34,10 @@ const AddItem = ({ open, onClose }) => {
     formData.append("productPrice", productPrice)
     formData.append("totalAmount", totalAmount)
     formData.append("token", userState.User.state.token);
-
+    
+    setSnackbarMessage('Product added successfully!');
+        setSnackbarSeverity('success');
+        setSnackbarOpen(true);
     setTimeout(() => {
       //navigate("/dashboard");
     }, 6000);
@@ -36,6 +45,11 @@ const AddItem = ({ open, onClose }) => {
 
   const handleCategoryChange = (event) =>{
     setProductCategory(event.target.value);
+    setTotalAmount(productQuantity * productPrice);
+  }
+
+  const handleProductChange = (event) =>{
+    setProductName(event.target.value);
     setTotalAmount(productQuantity * productPrice);
   }
 
@@ -53,6 +67,10 @@ const AddItem = ({ open, onClose }) => {
     }, 1000)
     
   }
+
+  const handleSnackbarClose = () => {
+    setSnackbarOpen(false);
+  };
   return (
     <div>
       <Modal
@@ -67,7 +85,7 @@ const AddItem = ({ open, onClose }) => {
             top: "50%",
             left: "50%",
             transform: "translate(-50%, -50%)",
-            width: 400,
+            width: 500,
             bgcolor: "background.paper",
             border: "2px solid #000",
             boxShadow: 24,
@@ -88,9 +106,13 @@ const AddItem = ({ open, onClose }) => {
             }}
           >
             <FormControl fullWidth variant="outlined">
-              <TextField label="Product name" value={productName} onChange={(e) => setProductName(e.target.value)}/>
+              <InputLabel id="product-select-label">Select product</InputLabel>
+              <Select labelId="product-select-label" value={productName} onChange={handleProductChange} label="Product name">
+                <MenuItem value={10}>Iron</MenuItem>
+                <MenuItem value={20}>Aluminium</MenuItem>
+                <MenuItem value={30}>Copper</MenuItem>
+              </Select>
             </FormControl>
-
             <FormControl fullWidth variant="outlined">
               <InputLabel id="category-select-label">Select category</InputLabel>
               <Select labelId="category-select-label" value={productCategory} onChange={handleCategoryChange} label="Product category">
@@ -108,16 +130,25 @@ const AddItem = ({ open, onClose }) => {
             <FormControl fullWidth variant="outlined">
               <TextField label="Total amount" value={totalAmount}/>
             </FormControl>
+            <FormControl fullWidth variant="outlined">
+              <TextField label="Product description" fullWidth value={productDescription} onChange={(e) => setProductDescription(e.target.value)}/>
+            </FormControl>
           </Box>
           <Box sx={{ mt: 3, textAlign: "right" }}>
-            <button type="button" class="btn btn-dark" onClick={handleForgotPassword}>
+            <button type="button" class="btn btn-dark" onClick={handleAddProduct}>
               Add product
             </button>
           </Box>
         </Box>
       </Modal>
+      <Toast
+        open={snackbarOpen}
+        close={handleSnackbarClose}
+        message={snackbarMessage}
+        severity={snackbarSeverity}
+      />
     </div>
   );
 };
 
-export default AddItem;
+export default SAddProduct;

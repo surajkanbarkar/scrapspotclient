@@ -42,7 +42,7 @@ const Signup = () => {
     setSnackbarSeverity('success');
     setSnackbarOpen(true);
     setTimeout(() => {
-      navigate("/dashboard");
+      //navigate("/dashboard");
     }, 2000);
 
     // Uncomment below for real API call

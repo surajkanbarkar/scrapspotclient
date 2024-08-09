@@ -11,3 +11,9 @@ export const SetUserProfile = (profile) => {
         dispatch({ type: "profile", payload : profile });
     }
 }
+
+export const SetProduct = (product) => {
+    return (dispatch) => {
+        dispatch({ type: "product", payload : product });
+    }
+}

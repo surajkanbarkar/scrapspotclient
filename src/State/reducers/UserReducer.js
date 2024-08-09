@@ -5,6 +5,8 @@ const UserReducer = (state = 0, action) => {
             return state + action.payload;
         case "profile":
             return {state: action.payload};
+        case "item":
+            return {state: action.payload};
         default:
             return state;
     }

@@ -3,23 +3,61 @@ import { Link, useNavigate } from "react-router-dom";
 import { BRANDNAME } from "../../Services/Utils";
 import Navbar from "../Common/Navbar";
 import { Box, TextField } from "@mui/material";
+import { ValidateEmail, ValidatePassword } from "./Validation";
+import Toast from "../Common/Snackbar";
 
 const ForgotPassword = () => {
   const navigate = useNavigate();
+  const [snackbarOpen, setSnackbarOpen] = useState(false);
+  const [snackbarMessage, setSnackbarMessage] = useState('');
+  const [snackbarSeverity, setSnackbarSeverity] = useState('success');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
+  const [errors, setErrors] = useState({});
+  
 
-  const handleForgotPassword = async () =>{
-    let formData = new FormData();
-    formData.append("email", email)
-    formData.append("password", password);
-    formData.append("confirmPassword", confirmPassword);
+  const validate = () => {
+    let isValid = true;
+    const tempErrors = {};
 
-    setTimeout(() => {
+    isValid = ValidateEmail(email, tempErrors) && isValid;
+    isValid = ValidatePassword(password, tempErrors, "password") && isValid;
+    isValid = ValidatePassword(confirmPassword, tempErrors, "confirmPassword") && isValid;
+
+    setErrors(tempErrors);
+    return isValid;
+  };
+
+  const handleForgotPassword = async (e) =>{
+    e.preventDefault();
+    const tempErrors = {};
+    if (password !== confirmPassword) {
+      tempErrors["confirmPassword"] = "Passwords do not match!";
+      setErrors(tempErrors)
+      return false;
+    }
+    else if (validate()){
+      let formData = new FormData();
+      formData.append("email", email)
+      formData.append("password", password);
+      formData.append("confirmPassword", confirmPassword);
+
       //navigate("/dashboard");
-    }, 6000);
+      setSnackbarMessage('Password changed successfully!');
+      setSnackbarSeverity('success');
+      setSnackbarOpen(true);
+
+      setTimeout(() => {
+        
+      }, 6000);
+      
+    }
   }
+
+  const handleSnackbarClose = () => {
+    setSnackbarOpen(false);
+  };
   return (
     <>
     <Navbar />
@@ -31,9 +69,21 @@ const ForgotPassword = () => {
         <Box
               sx={{ display: "flex", flexDirection: "column", gap: 2 }}
             >
-              <TextField label="Email" variant="outlined" fullWidth value={email} onChange={(e) => setEmail(e.target.value)}/>
-              <TextField label="Password" variant="outlined" fullWidth value={password} onChange={(e) =>setPassword(e.target.value)}/>
-              <TextField label="Comfirm password" variant="outlined" fullWidth value={confirmPassword} onChange={(e) => setConfirmPassword(e.target.value)}/>
+              <TextField label="Email" variant="outlined" fullWidth value={email} onChange={(e) => setEmail(e.target.value)}
+                error={!!errors.email}
+                helperText={errors.email}
+                margin="normal"
+                />
+              <TextField label="Password" type="password" variant="outlined" fullWidth value={password} onChange={(e) =>setPassword(e.target.value)}
+                error={!!errors.password}
+                helperText={errors.password}
+                margin="normal"
+                />
+              <TextField label="Comfirm password" type="password" variant="outlined" fullWidth value={confirmPassword} onChange={(e) => setConfirmPassword(e.target.value)}
+                error={!!errors.confirmPassword}
+                helperText={errors.confirmPassword}
+                margin="normal"
+                />
               <div className="row">
             <div className="col-md-12">
               <button type="button" className="btn btn-primary w-100 mt-4" onClick={handleForgotPassword}>
@@ -47,6 +97,12 @@ const ForgotPassword = () => {
             </Box>
           
       </div>
+      <Toast
+        open={snackbarOpen}
+        close={handleSnackbarClose}
+        message={snackbarMessage}
+        severity={snackbarSeverity}
+      />
     </div>
     </>
    

@@ -13,7 +13,7 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 
 
-const CompanySidebar = () => {
+const ScrapyardSidebar = () => {
   const [isOffcanvasOpen, setOffcanvasOpen] = useState(false);
 
   const toggleOffcanvas = () => {
@@ -30,28 +30,28 @@ const CompanySidebar = () => {
         <div className="sidebar-heading">{BRANDNAME}</div>
         <div className="list-group list-group-flush" >
           <Link
-            to="/dashboard"
+            to="/scrapyard-dashboard"
             className="list-group-item list-group-item-action text-light"
           >
             <FontAwesomeIcon icon={faTachometerAlt} className="icon" />
             Dashboard
           </Link>
           <Link
-            to="/list-of-scraps"
+            to="/sr-list-of-scraps"
             className="list-group-item list-group-item-action text-light"
           >
             <FontAwesomeIcon icon={faBoxOpen} className="icon" />
             View products
           </Link>
           <Link
-            to="/r-payments"
+            to="/scrapyard-payments"
             className="list-group-item list-group-item-action text-light"
           >
             <FontAwesomeIcon icon={faCreditCard} className="icon" />
-            Payments
+            Transactions
           </Link>
           <Link
-            to="/user-profile"
+            to="/scrapyard-profile"
             className="list-group-item list-group-item-action text-light"
           >
             <FontAwesomeIcon icon={faUser} className="icon" />
@@ -135,4 +135,4 @@ const CompanySidebar = () => {
   );
 };
 
-export default CompanySidebar;
+export default ScrapyardSidebar;

@@ -1,6 +1,6 @@
 import React from "react";
 
-const PaymentsTableRow = ({record}) => {
+const PaymentsMadeTableRow = ({record}) => {
     return(
 
         <tr class="table-primary">
@@ -16,4 +16,4 @@ const PaymentsTableRow = ({record}) => {
     )
 }
 
-export default PaymentsTableRow;
+export default PaymentsMadeTableRow;

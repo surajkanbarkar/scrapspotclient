@@ -13,8 +13,10 @@ import CompanySidebar from "../Common/CompanySidebar";
 import Toast from "../Common/Snackbar";
 import { useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
+import ScrapyardSidebar from "../Common/ScrapyardSidebar";
+import LogoutMenu from "../Common/LogoutMenu";
 
-const Profile = () => {
+const ScrapyardProfile = () => {
   const navigate = useNavigate();
   const [snackbarOpen, setSnackbarOpen] = useState(false);
   const [snackbarMessage, setSnackbarMessage] = useState("");
@@ -75,18 +77,19 @@ const Profile = () => {
   };
 
   return (
-    <Box className="d-flex">
-      <CompanySidebar />
-      <Container maxWidth="lg">
+    <div className="d-flex">
+      <ScrapyardSidebar />
+      <div className="container">
+      <div className="dashboard-content">
+      <div className='float-end'>
+        <LogoutMenu />
+      </div>
+      <div className="dashboard-title">
+          <h1>Account profile</h1>
+          <hr/>
+        </div>
+        
         <Box className="dashboard-content" sx={{ mt: 4 }}>
-          <Typography
-            variant="h4"
-            component="h1"
-            className="dashboard-title"
-            sx={{ mb: 3 }}
-          >
-            My Profile
-          </Typography>
           <Card
             elevation={3}
             sx={{ borderRadius: 5, boxShadow: 3, marginBottom: 5 }}
@@ -209,15 +212,16 @@ const Profile = () => {
             </CardContent>
           </Card>
         </Box>
-      </Container>
       <Toast
         open={snackbarOpen}
         close={handleSnackbarClose}
         message={snackbarMessage}
         severity={snackbarSeverity}
       />
-    </Box>
+      </div>
+      </div>
+    </div>
   );
 };
 
-export default Profile;
+export default ScrapyardProfile;
