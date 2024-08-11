@@ -29,6 +29,7 @@ const CompScrapsTable = () => {
     const userProfileId = localStorage.getItem("userId")
     CompanyService.GetAllProducts(userProfileId)
     .then(response => {
+      console.log(response.data);
       if (response.status === 200) {
         setAllProductsList(response.data);
         handleSnackbar("Data fetched", "success", true);

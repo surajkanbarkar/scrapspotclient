@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   Box,
   Container,
@@ -13,6 +13,7 @@ import CompanySidebar from "../Common/CompanySidebar";
 import Toast from "../Common/Snackbar";
 import { useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
+import AuthService from "../../Services/AuthService";
 
 const Profile = () => {
   const navigate = useNavigate();
@@ -32,9 +33,9 @@ const Profile = () => {
 
   let userState = useSelector((state) => state);
 
-  const handleSnackbarClose = () => {
-    setSnackbarOpen(false);
-  };
+  useEffect(() => {
+    loadUserProfile();
+  });
 
   const handlePersonalDetailsChange = async () => {
     setSnackbarMessage("Personal details updated successfully");
@@ -55,10 +56,22 @@ const Profile = () => {
     }, 6000);
   };
 
+  const loadUserProfile = async () => {
+    const userProfileId = localStorage.getItem("userId");
+    await AuthService.UserProfile(userProfileId)
+      .then((response) => {
+        setFullName(response.data.name);
+        setEmail(response.data.email);
+        setCompanyName(response.data.companyName);
+        setCompanyAddress(response.data.companyAddress);
+      })
+      .catch((error) => {
+        handleSnackbar(error.response.data, "error", true);
+      });
+  };
+
   const handleBankDetailsChange = async () => {
-    setSnackbarMessage("Bank details updated successfully");
-    setSnackbarSeverity("success");
-    setSnackbarOpen(true);
+    
 
     console.log(userState.User.state);
 
@@ -73,7 +86,14 @@ const Profile = () => {
       //navigate("/dashboard");
     }, 6000);
   };
-
+  const handleSnackbar = (message, severity, show) => {
+    setSnackbarMessage(message);
+    setSnackbarSeverity(severity);
+    setSnackbarOpen(show);
+  };
+  const handleSnackbarClose = () => {
+    setSnackbarOpen(false);
+  };
   return (
     <Box className="d-flex">
       <CompanySidebar />
@@ -161,50 +181,50 @@ const Profile = () => {
                 Bank Details
               </Typography>
               <Grid container spacing={2}>
-              <Grid item xs={12} sm={6} md={4}>
-                <TextField
-                  label="Bank name"
-                  variant="outlined"
-                  fullWidth
-                  value={bankName}
-                  onChange={(e) => setBankName(e.target.value)}
-                />
-              </Grid>
-              <Grid item xs={12} sm={6} md={4}>
-                <TextField
-                  label="Account number"
-                  variant="outlined"
-                  fullWidth
-                  value={accountNumber}
-                  onChange={(e) => setAccountNumber(e.target.value)}
-                />
-              </Grid>
-              <Grid item xs={12} sm={6} md={4}>
-                <TextField
-                  label="IFSC code"
-                  variant="outlined"
-                  fullWidth
-                  value={ifscCode}
-                  onChange={(e) => setIfscCode(e.target.value)}
-                />
-              </Grid>
-              <Grid item xs={12} sm={6} md={4}>
-                <TextField
-                  label="Branch"
-                  variant="outlined"
-                  fullWidth
-                  value={branchName}
-                  onChange={(e) => setBranchName(e.target.value)}
-                />
-              </Grid>
-              <Grid item xs={12}>
-                <button
-                  className="btn btn-primary mt-2"
-                  onClick={handleBankDetailsChange}
-                >
-                  Save Changes
-                </button>
-              </Grid>
+                <Grid item xs={12} sm={6} md={4}>
+                  <TextField
+                    label="Bank name"
+                    variant="outlined"
+                    fullWidth
+                    value={bankName}
+                    onChange={(e) => setBankName(e.target.value)}
+                  />
+                </Grid>
+                <Grid item xs={12} sm={6} md={4}>
+                  <TextField
+                    label="Account number"
+                    variant="outlined"
+                    fullWidth
+                    value={accountNumber}
+                    onChange={(e) => setAccountNumber(e.target.value)}
+                  />
+                </Grid>
+                <Grid item xs={12} sm={6} md={4}>
+                  <TextField
+                    label="IFSC code"
+                    variant="outlined"
+                    fullWidth
+                    value={ifscCode}
+                    onChange={(e) => setIfscCode(e.target.value)}
+                  />
+                </Grid>
+                <Grid item xs={12} sm={6} md={4}>
+                  <TextField
+                    label="Branch"
+                    variant="outlined"
+                    fullWidth
+                    value={branchName}
+                    onChange={(e) => setBranchName(e.target.value)}
+                  />
+                </Grid>
+                <Grid item xs={12}>
+                  <button
+                    className="btn btn-primary mt-2"
+                    onClick={handleBankDetailsChange}
+                  >
+                    Save Changes
+                  </button>
+                </Grid>
               </Grid>
             </CardContent>
           </Card>

@@ -1,11 +1,11 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import Sidebar from "../Common/CompanySidebar";
 import PaymentsTableRow from "./PaymentsReceivedTableRow";
 import ScrapyardSidebar from "../Common/ScrapyardSidebar";
 import PaymentService from "../../Services/PaymentService";
 
 const PaymentsReceivedTable = () => {
-  const [transactions, setTransactions] = useEffect();
+  const [transactions, setTransactions] = useState([]);
 
   useEffect(()=>{
     getPayments();
@@ -15,8 +15,9 @@ const PaymentsReceivedTable = () => {
     const userProfileId = localStorage.getItem("userId")
     PaymentService.GetAllPayments(userProfileId)
     .then(response => {
+      console.log(response.data)
       if (response.status === 200) {
-        setTransactions(response);
+        setTransactions(response.data);
       }
     })
     .catch(error => {
@@ -41,9 +42,13 @@ const PaymentsReceivedTable = () => {
               </tr>
             </thead>
             <tbody>
-              {transactions.map((record) => {
-                return <PaymentsTableRow record={record} />;
-              })}
+            {transactions.map((record) => {
+                if (record.someCondition) {
+                    return <PaymentsTableRow key={record.id} record={record} />;
+                } else {
+                    return <div key={record.id}>No data available</div>;
+                }
+            })}
             </tbody>
           </table>
         </div>

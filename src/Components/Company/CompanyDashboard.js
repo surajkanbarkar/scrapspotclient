@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import '../.././Static/Dashboard.css';
 import CompanySidebar from '../Common/CompanySidebar';
 import { useSelector } from 'react-redux';
@@ -6,7 +6,11 @@ import { useNavigate } from 'react-router-dom';
 import LogoutMenu from '../Common/LogoutMenu';
 
 const CompanyDashboard = () => {
-  
+  const token = useSelector(state => state)
+
+  useEffect(()=>{
+    console.log(token);
+  })
   return (
     <div className='d-flex'>
     <CompanySidebar/>

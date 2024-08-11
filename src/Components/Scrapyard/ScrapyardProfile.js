@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   Box,
   Container,
@@ -15,13 +15,14 @@ import { useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
 import ScrapyardSidebar from "../Common/ScrapyardSidebar";
 import LogoutMenu from "../Common/LogoutMenu";
+import AuthService from "../../Services/AuthService";
 
 const ScrapyardProfile = () => {
   const navigate = useNavigate();
   const [snackbarOpen, setSnackbarOpen] = useState(false);
   const [snackbarMessage, setSnackbarMessage] = useState("");
   const [snackbarSeverity, setSnackbarSeverity] = useState("success");
-
+  const [userId, setUserId] = useState(0);
   const [fullName, setFullName] = useState("");
   const [email, setEmail] = useState("");
   const [phoneNumber, setPhoneNumber] = useState("");
@@ -34,27 +35,53 @@ const ScrapyardProfile = () => {
 
   let userState = useSelector((state) => state);
 
+  useEffect(() => {
+    loadUserProfile();
+  },{});
+
+  const loadUserProfile = async () => {
+    const userProfileId = localStorage.getItem("userId");
+    await AuthService.UserProfile(userProfileId)
+      .then((response) => {
+        console.log(response.data)
+        setFullName(response.data.name);
+        setEmail(response.data.emailId);
+        setPhoneNumber(response.data.mobile);
+        setCompanyName(response.data.companyName);
+        setCompanyAddress(response.data.companyAddress);
+        setUserId(response.data.user.userId)
+      })
+      .catch((error) => {
+        handleSnackbar("Server error", "error", true);
+      });
+  };
+  const handleSnackbar = (message, severity, show) => {
+    setSnackbarMessage(message);
+    setSnackbarSeverity(severity);
+    setSnackbarOpen(show);
+  };
   const handleSnackbarClose = () => {
     setSnackbarOpen(false);
   };
 
   const handlePersonalDetailsChange = async () => {
-    setSnackbarMessage("Personal details updated successfully");
-    setSnackbarSeverity("success");
-    setSnackbarOpen(true);
-
-    console.log(userState.User.state);
-
-    let formData = new FormData();
-    formData.append("fullName", fullName);
-    formData.append("email", email);
-    formData.append("phoneNumber", phoneNumber);
-    formData.append("companyName", companyName);
-    formData.append("companyAddress", companyAddress);
-    formData.append("token", userState.User.state.token);
-    setTimeout(() => {
-      //navigate("/dashboard");
-    }, 6000);
+    let formData = {
+    "name": fullName,
+    "email": email,
+    "mobile": phoneNumber,
+    "companyName": companyName,
+    "companyAddress": companyAddress,
+    "userId" : userId,
+    // "token": userState.User.state.token
+    }
+    const userProfileId = localStorage.getItem("userId");
+    await AuthService.UpdateUserProfile(userProfileId, formData)
+    .then(response=>{
+      loadUserProfile();
+      setSnackbarMessage("Personal details updated successfully");
+      setSnackbarSeverity("success");
+      setSnackbarOpen(true);
+    })
   };
 
   const handleBankDetailsChange = async () => {

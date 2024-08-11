@@ -27,7 +27,7 @@ function App() {
     <div className="App">
       <BrowserRouter >
         <Routes>
-          <Route path="/" exact element={<Signup />} />
+          <Route path="/" exact element={<Signin />} />
           <Route path="/signup" exact element={<Signup />} />
           <Route path="/signin" exact element={<Signin />} />
           <Route path="/forgotPassword" exact element={<ForgotPassword />} />

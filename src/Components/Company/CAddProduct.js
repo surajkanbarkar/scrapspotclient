@@ -37,7 +37,7 @@ const CAddProduct = ({ open, onClose }) => {
     console.log("called categories")
     await CompanyService.GetProductCategories()
     .then(response => {
-      console.log(response)
+      console.log(response.data)
       if (response.status === 200) {
         setProductCategories(response.data)
       //   dispatch(ActionCreator.SetUserToken(response.data.token))

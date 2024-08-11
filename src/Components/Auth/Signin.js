@@ -17,7 +17,7 @@ const Signin = () => {
   const [password, setPassword] = useState("");
   const [errors, setErrors] = useState({});
   const [userRole, setUserRole] = useState(null);
-  const dispatch = useDispatch();
+  const dispatch = useDispatch()
 
   useEffect(()=>{
     // LoggedInUser(localStorage.getItem("userId"))
@@ -74,6 +74,8 @@ const Signin = () => {
               localStorage.setItem("token", response.data.token)
               localStorage.setItem("userId", response.data.userProfile.userProfileId)
               redirectBasedOnRole(response.data.userProfile.userRole);
+              dispatch(ActionCreator.SetUserToken(response.data.token));
+
             }
             else{
                 handleSnackbar("Server error!", "error", true);
