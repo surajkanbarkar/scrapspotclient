@@ -3,6 +3,7 @@ import '../.././Static/Dashboard.css';
 import CompanySidebar from '../Common/CompanySidebar';
 import { useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
+import LogoutMenu from '../Common/LogoutMenu';
 
 const CompanyDashboard = () => {
   
@@ -11,7 +12,9 @@ const CompanyDashboard = () => {
     <CompanySidebar/>
     <div className='container'>
     <div className="dashboard-content">
-        
+    <div className='float-end'>
+        <LogoutMenu />
+      </div>
         <h1 className="dashboard-title">Dashboard - Company</h1>
       <div className="row">
         <div className="col-lg-3 col-md-6 mb-4">

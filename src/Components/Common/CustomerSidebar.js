@@ -30,28 +30,28 @@ const CustomerSidebar = () => {
         <div className="sidebar-heading">{BRANDNAME}</div>
         <div className="list-group list-group-flush" >
           <Link
-            to="/dashboard"
+            to="/customer-dashboard"
             className="list-group-item list-group-item-action text-light"
           >
             <FontAwesomeIcon icon={faTachometerAlt} className="icon" />
             Dashboard
           </Link>
           <Link
-            to="/list-of-scraps"
+            to="/cus-list-of-scraps"
             className="list-group-item list-group-item-action text-light"
           >
             <FontAwesomeIcon icon={faBoxOpen} className="icon" />
             View products
           </Link>
           <Link
-            to="/payments"
+            to="/customer-transactions"
             className="list-group-item list-group-item-action text-light"
           >
             <FontAwesomeIcon icon={faCreditCard} className="icon" />
             Transactions
           </Link>
           <Link
-            to="/user-profile"
+            to="/customer-profile"
             className="list-group-item list-group-item-action text-light"
           >
             <FontAwesomeIcon icon={faUser} className="icon" />

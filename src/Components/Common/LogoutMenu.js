@@ -3,9 +3,14 @@ import Button from '@mui/material/Button';
 import Menu from '@mui/material/Menu';
 import MenuItem from '@mui/material/MenuItem';
 import ExitToAppIcon from '@mui/icons-material/ExitToApp';
+import { useDispatch } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
 
 export default function LogoutMenu() {
     const [anchorEl, setAnchorEl] = useState();
+    const dispatch = useDispatch();
+    const navigate = useNavigate();
+
     const open = Boolean(anchorEl);
     const handleClick = (event) => {
       setAnchorEl(event.currentTarget);
@@ -15,9 +20,12 @@ export default function LogoutMenu() {
     };
 
     const handleLogout = () => {
-        //setAnchorEl(null);
+        dispatch({ type: 'logout'});
+        localStorage.clear();
+        setTimeout(()=>{
+          navigate('/signin');
+        },2000)
       };
-  
     return (
       <div>
         <Button

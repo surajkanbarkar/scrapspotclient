@@ -10,58 +10,114 @@ import {
   TextField,
   Typography,
 } from "@mui/material";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import Toast from "../Common/Snackbar";
+import CompanyService from "../../Services/CompanyService";
 
 const CAddProduct = ({ open, onClose }) => {
-  let userState = useSelector((state) => state);
+  let userState = useSelector((state) => state.User);
   const [productName, setProductName] = useState('');
   const [productCategory, setProductCategory] = useState('');
+  const [categoryId, setCategorId] = useState('');
   const [productQuantity, setProductQuantity] = useState('');
-  const [productPrice, setProductPrice] = useState(0);
+  const [pricePerQuantity, setPricePerQuantity] = useState(0);
   const [totalAmount, setTotalAmount] = useState(0);
   const [productDescription, setProductDescription] = useState('');
   const [snackbarOpen, setSnackbarOpen] = useState(false);
   const [snackbarMessage, setSnackbarMessage] = useState('');
   const [snackbarSeverity, setSnackbarSeverity] = useState('success');
+  const [productCategories, setProductCategories] = useState([]);
+
+  useEffect(() => {
+    getCategories();
+  },[])
+
+  const getCategories = async () =>{
+    console.log("called categories")
+    await CompanyService.GetProductCategories()
+    .then(response => {
+      console.log(response)
+      if (response.status === 200) {
+        setProductCategories(response.data)
+      //   dispatch(ActionCreator.SetUserToken(response.data.token))
+      //   dispatch(ActionCreator.SetUserProfile(response.data.userProfile))
+      }
+    })
+      .catch(error => {
+        handleSnackbar(error.response.data, "error", true);
+    })
+  } 
+
+  const handleSnackbar = (message, severity, show) => {
+    setSnackbarMessage(message);
+    setSnackbarSeverity(severity);
+    setSnackbarOpen(show);
+  };
 
   const handleAddProduct = async () =>{
-    let formData = new FormData();
-    formData.append("productName", productName)
-    formData.append("productCategory", productCategory)
-    formData.append("productQuantity", productQuantity)
-    formData.append("productPrice", productPrice)
-    formData.append("totalAmount", totalAmount)
-    formData.append("token", userState.User.state.token);
+    // Validation checks
+    if (!productName || !categoryId || !productQuantity || !pricePerQuantity || !totalAmount) {
+      handleSnackbar("All fields are required.", "error", true);
+      return;
+  }
+
+  if (productQuantity <= 0) {
+      handleSnackbar("Product quantity must be greater than zero.", "error", true);
+      return;
+  }
+
+  if (pricePerQuantity <= 0) {
+      handleSnackbar("Price per quantity must be greater than zero.", "error", true);
+      return;
+  }
+
+  if (totalAmount <= 0) {
+      handleSnackbar("Total amount must be greater than zero.", "error", true);
+      return;
+  }
+  const userId = localStorage.getItem("userId");
+    let formData = {
+    "productName": productName,
+    "categoryId": categoryId,
+    "productQuantity": productQuantity,
+    "pricePerQuantity": pricePerQuantity,
+    "totalAmount": totalAmount,
+    "productDescription": productDescription,
+    "userProfileId":userId
+    }
+
+   
+    // await CompanyService.AddProduct(formData, userState.User.state.token)
+    await CompanyService.AddProduct(formData)
+    .then(response => {
+        handleSnackbar(response.data, "success", true)
+        setTimeout(() => {
+          setSnackbarOpen(false);
+        }, 2000);
+    })
+    .catch(error => {
+      handleSnackbar(error.response.data, "error", true);
+    })
     
-    setSnackbarMessage('Product added successfully!');
-        setSnackbarSeverity('success');
-        setSnackbarOpen(true);
-    setTimeout(() => {
-      //navigate("/dashboard");
-    }, 6000);
   }
 
   const handleCategoryChange = (event) =>{
     setProductCategory(event.target.value);
-    setTotalAmount(productQuantity * productPrice);
+    setCategorId(event.target.value)
+    setTotalAmount(productQuantity * pricePerQuantity);
   }
 
-  const handleProductChange = (event) =>{
-    setProductName(event.target.value);
-    setTotalAmount(productQuantity * productPrice);
-  }
 
   const handleQuantityChange = (event) =>{
     setProductQuantity(event.target.value);
     setTimeout((e) => {
-      setTotalAmount(event.target.value * productPrice);
+      setTotalAmount(event.target.value * pricePerQuantity);
     }, 1000)
   }
 
   const handlePriceChange = (event) =>{
-    setProductPrice(event.target.value);
+    setPricePerQuantity(event.target.value);
     setTimeout(() => {
       setTotalAmount(productQuantity * event.target.value);
     }, 1000)
@@ -106,26 +162,24 @@ const CAddProduct = ({ open, onClose }) => {
             }}
           >
             <FormControl fullWidth variant="outlined">
-              <InputLabel id="product-select-label">Select product</InputLabel>
-              <Select labelId="product-select-label" value={productName} onChange={handleProductChange} label="Product name">
-                <MenuItem value={10}>Iron</MenuItem>
-                <MenuItem value={20}>Aluminium</MenuItem>
-                <MenuItem value={30}>Copper</MenuItem>
+              <InputLabel id="category-select-label">Select category</InputLabel>
+              <Select labelId="category-select-label" value={productCategory} onChange={handleCategoryChange} label="Product category">
+                
+                {productCategories.map((product) => (
+                <MenuItem key={product.categoryId} value={product.categoryId}>
+                  {product.categoryName}
+                </MenuItem>
+              ))}
               </Select>
             </FormControl>
             <FormControl fullWidth variant="outlined">
-              <InputLabel id="category-select-label">Select category</InputLabel>
-              <Select labelId="category-select-label" value={productCategory} onChange={handleCategoryChange} label="Product category">
-                <MenuItem value={10}>Metal</MenuItem>
-                <MenuItem value={20}>Plastic</MenuItem>
-                <MenuItem value={30}>Paper</MenuItem>
-              </Select>
+              <TextField label="Product name" value={productName} onChange={(e) => setProductName(e.target.value)}/>
             </FormControl>
             <FormControl fullWidth variant="outlined">
               <TextField label="Product quantity in kg" value={productQuantity} onChange={handleQuantityChange}/>
             </FormControl>
             <FormControl fullWidth variant="outlined">
-              <TextField label="Price/kg" value={productPrice} onChange={handlePriceChange}/>
+              <TextField label="Price/kg" value={pricePerQuantity} onChange={handlePriceChange}/>
             </FormControl>
             <FormControl fullWidth variant="outlined">
               <TextField label="Total amount" value={totalAmount}/>

@@ -1,29 +1,27 @@
-import React from "react";
+import React, { useEffect } from "react";
 import Sidebar from "../Common/CompanySidebar";
 import PaymentsTableRow from "./PaymentsReceivedTableRow";
 import ScrapyardSidebar from "../Common/ScrapyardSidebar";
+import PaymentService from "../../Services/PaymentService";
 
 const PaymentsReceivedTable = () => {
-  const transactions = [
-    {
-      srNo: 1,
-      transactionId: "TXN12345",
-      receivedFrom: "Customer A",
-      paymentMode: "Credit Card",
-      status: "Paid",
-      paidOn: "2023-11-24",
-      invoice: "INV-001",
-    },
-    {
-      srNo: 2,
-      transactionId: "TXN67890",
-      receivedFrom: "Customer B",
-      paymentMode: "Debit Card",
-      status: "Pending",
-      paidOn: "2023-12-01",
-      invoice: "INV-002",
-    },
-  ];
+  const [transactions, setTransactions] = useEffect();
+
+  useEffect(()=>{
+    getPayments();
+  },[])
+
+  const getPayments = () =>{
+    const userProfileId = localStorage.getItem("userId")
+    PaymentService.GetAllPayments(userProfileId)
+    .then(response => {
+      if (response.status === 200) {
+        setTransactions(response);
+      }
+    })
+    .catch(error => {
+    })
+  }
   return (
       <div>
         <div className="dashboard-title">

@@ -17,3 +17,8 @@ export const SetProduct = (product) => {
         dispatch({ type: "product", payload : product });
     }
 }
+export const SetUserLogout = (user) => {
+    return (dispatch) => {
+        dispatch({ type: "logout", payload : user });
+    }
+}

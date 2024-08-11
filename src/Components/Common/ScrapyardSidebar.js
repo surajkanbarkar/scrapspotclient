@@ -44,6 +44,13 @@ const ScrapyardSidebar = () => {
             View products
           </Link>
           <Link
+            to="/mysr-list-of-scraps"
+            className="list-group-item list-group-item-action text-light"
+          >
+            <FontAwesomeIcon icon={faBoxOpen} className="icon" />
+            My products
+          </Link>
+          <Link
             to="/scrapyard-payments"
             className="list-group-item list-group-item-action text-light"
           >

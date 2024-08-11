@@ -1,13 +1,16 @@
-import React, { useState } from "react";
-import { Link } from "react-router-dom";
+import React, { useEffect, useState } from "react";
 import SScrapBuyItem from "./SScrapBuyItem";
 import { useDispatch } from "react-redux";
 import { ActionCreator } from "../../State/Actions/ActionCreator";
 
-const ScrapTableRow = ({record}) => {
+const SScrapTableRow = ({record}) => {
     const [isModalOpen, setIsModalOpen] = useState(false);
-    const [product, setProduct] = useState();
+    const [product, setProduct] = useState({});
     const dispatch = useDispatch();
+
+    useEffect(() => {
+        setProduct(record);
+    }, [record]);
 
     const handleOpenBuyModal = (buyItem) => {
         setProduct(buyItem);
@@ -20,26 +23,25 @@ const ScrapTableRow = ({record}) => {
     };
     const handleCloseModal = () => setIsModalOpen(false);
 
-
-
     return(
         <>
-        <SScrapBuyItem open={isModalOpen} onClose={handleCloseModal}/>
-        <tr class="table-primary">
-            <td>{record.srNo}</td>
-            <td>{record.category}</td>
-            <td>{record.productName}</td>
-            <td>{record.quantity}</td>
-            <td>{record.listedOn}</td>
-            <td>{record.pricePerKg}</td>
-            <td>{record.totalAmount}</td>
+        <tr class="table-secondary" key={product.productId}>
+            <td>{product.productId}</td>
+            <td>{product.category?.categoryName}</td>
+            <td>{product.productName}</td>
+            <td>{product.productQuantity}</td>
+            <td>{product.userProfile?.companyName}</td>
+            <td>{product.createdOn}</td>
+            <td>{product.pricePerQuantity}</td>
+            <td>{product.productQuantity * product.pricePerQuantity}</td>
             <td>
-            <button className="btn btn-primary" onClick={() => handleOpenBuyModal(record)}>Buy</button>
+            <button className="btn btn-primary" onClick={() => handleOpenBuyModal(product)}>Buy</button>
             </td>
           </tr>
+          <SScrapBuyItem open={isModalOpen} onClose={handleCloseModal} product={product}/>
         </>
         
     )
 }
 
-export default ScrapTableRow;
+export default SScrapTableRow;

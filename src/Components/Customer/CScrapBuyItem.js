@@ -1,78 +1,47 @@
 import {
     Box,
-    Button,
     FormControl,
     InputLabel,
     MenuItem,
     Modal,
     Select,
-    TextareaAutosize,
     TextField,
     Typography,
   } from "@mui/material";
   import React, { useEffect, useState } from "react";
   import { useSelector } from "react-redux";
   import Toast from "../Common/Snackbar";
+import Razorpay from "../Common/Razorpay";
+import ScrapyardService from "../../Services/ScrapyardService";
   
-  const CScrapBuyItem = ({ open, onClose }) => {
-    let userState = useSelector((state) => state);
-    const [productName, setProductName] = useState('');
-    const [productCategory, setProductCategory] = useState('');
-    const [productQuantity, setProductQuantity] = useState('');
-    const [productPrice, setProductPrice] = useState(0);
-    const [totalAmount, setTotalAmount] = useState(0);
-    const [productDescription, setProductDescription] = useState('');
+  const CScrapBuyItem = ({ open, onClose, product }) => {
+  
     const [snackbarOpen, setSnackbarOpen] = useState(false);
     const [snackbarMessage, setSnackbarMessage] = useState('');
     const [snackbarSeverity, setSnackbarSeverity] = useState('success');
-    const product = useSelector(state => state.Product.state)
-
-    const handleAddProduct = async () =>{
-      
-      // formData.append("token", userState.User.state.token);
-      console.log(product);
-
-      setProductName(product.productName);
-      setProductCategory(product.productCategory);
-      setProductDescription(product.productDescription);
-      setProductPrice(product.productPrice)
-      setProductQuantity(product.productQuantity)
-      setTotalAmount(product.totalAmount);
-
-      setSnackbarMessage('Ordered successfully!');
-      setSnackbarSeverity('success');
-      setSnackbarOpen(true);
-
-
-      let formData = new FormData();
-      formData.append("productName", productName)
-      formData.append("productCategory", productCategory)
-      formData.append("productQuantity", productQuantity)
-      formData.append("productPrice", productPrice)
-      formData.append("totalAmount", totalAmount)
-      setTimeout(() => {
-        
-      }, 6000);
-    }
-  
-    const handleQuantityChange = (event) =>{
-      setProductQuantity(event.target.value);
-      setTimeout((e) => {
-        setTotalAmount(event.target.value * productPrice);
-      }, 1000)
-    }
-  
-    const handlePriceChange = (event) =>{
-      setProductPrice(event.target.value);
-      setTimeout(() => {
-        setTotalAmount(productQuantity * event.target.value);
-      }, 1000)
-      
-    }
-  
+    // const product = useSelector(state => state.Product.state)
+    
     const handleSnackbarClose = () => {
       setSnackbarOpen(false);
     };
+
+    const handlePayment = async (amount) =>{
+      
+      try {
+        let paymentDetails = await Razorpay(amount);
+
+        if (paymentDetails !== undefined){
+          let formData = new FormData();
+          formData.append({'product_id': product.productId})
+          formData.append({'token': 12})
+          formData.append({'product': {}})
+          ScrapyardService.BuyProduct();
+        }
+        console.log(paymentDetails);
+      } catch (error) {
+        console.error("Payment failed or was cancelled:", error);
+      }
+    }
     return (
       <div>
         <Modal
@@ -109,7 +78,7 @@ import {
             >
               <FormControl fullWidth variant="outlined">
                 <InputLabel id="product-select-label">Select product</InputLabel>
-                <Select labelId="product-select-label" value={productName} label="Product name">
+                <Select labelId="product-select-label" value={product.productName} label="Product name">
                   <MenuItem value={10}>Iron</MenuItem>
                   <MenuItem value={20}>Aluminium</MenuItem>
                   <MenuItem value={30}>Copper</MenuItem>
@@ -117,27 +86,27 @@ import {
               </FormControl>
               <FormControl fullWidth variant="outlined">
                 <InputLabel id="category-select-label">Select category</InputLabel>
-                <Select labelId="category-select-label" value={productCategory} label="Product category">
+                <Select labelId="category-select-label" value={product.productCategory} label="Product category">
                   <MenuItem value={10}>Metal</MenuItem>
                   <MenuItem value={20}>Plastic</MenuItem>
                   <MenuItem value={30}>Paper</MenuItem>
                 </Select>
               </FormControl>
               <FormControl fullWidth variant="outlined">
-                <TextField label="Product quantity in kg" value={productQuantity} onChange={handleQuantityChange}/>
+                <TextField label="Product quantity in kg" value={product.productQuantity}/>
               </FormControl>
               <FormControl fullWidth variant="outlined">
-                <TextField label="Price/kg" value={productPrice} onChange={handlePriceChange}/>
+                <TextField label="Price/kg" value={product.productPrice}/>
               </FormControl>
               <FormControl fullWidth variant="outlined">
-                <TextField label="Total amount" value={totalAmount}/>
+                <TextField label="Total amount" value={product.totalAmount}/>
               </FormControl>
               <FormControl fullWidth variant="outlined">
-                <TextField label="Product description" fullWidth value={productDescription} onChange={(e) => setProductDescription(e.target.value)}/>
+                <TextField label="Product description" fullWidth value={product.productDescription}/>
               </FormControl>
             </Box>
             <Box sx={{ mt: 3, textAlign: "right" }}>
-              <button type="button" class="btn btn-dark" onClick={handleAddProduct}>
+              <button type="button" class="btn btn-dark" onClick={() => handlePayment(product.totalAmount)}>
                 Buy product
               </button>
             </Box>

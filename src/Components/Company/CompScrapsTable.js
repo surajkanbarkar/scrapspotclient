@@ -1,29 +1,33 @@
 import React, { useEffect, useState } from "react";
-import AddProduct from "../Company/CAddProduct";
-import ScrapyardSidebar from "../Common/ScrapyardSidebar";
+import CompanySidebar from "../Common/CompanySidebar";
 import LogoutMenu from "../Common/LogoutMenu";
-import SScrapTableRow from "./SScrapTableRow";
-import ScrapyardService from "../../Services/ScrapyardService";
-import SAddProduct from "./SAddProduct";
+import CompScrapTableRow from "./CompScrapTableRow";
+import CAddProduct from "./CAddProduct";
+import CompanyService from "../../Services/CompanyService";
+import { useSelector } from "react-redux";
 
-const SScrapsTable = () => {
+const CompScrapsTable = () => {
+  const userState = useSelector((state) => state.User);
   const [isModalOpen, setIsModalOpen] = useState(false);
+
+  const handleOpenModal = () => setIsModalOpen(true);
+  const handleCloseModal = () => setIsModalOpen(false);
+
   const [snackbarOpen, setSnackbarOpen] = useState(false);
   const [snackbarMessage, setSnackbarMessage] = useState('');
   const [snackbarSeverity, setSnackbarSeverity] = useState('success');
   const [allProductsList, setAllProductsList] = useState([]);
 
-  const handleOpenModal = () => setIsModalOpen(true);
-  const handleCloseModal = () => setIsModalOpen(false);
-
-
   useEffect(()=>{
     getProducts();
   }, [])
 
+  const handleSnackbarClose = () => {
+    setSnackbarOpen(false);
+  };
   const getProducts = () =>{
     const userProfileId = localStorage.getItem("userId")
-    ScrapyardService.GetAllProducts(userProfileId)
+    CompanyService.GetAllProducts(userProfileId)
     .then(response => {
       if (response.status === 200) {
         setAllProductsList(response.data);
@@ -43,11 +47,9 @@ const SScrapsTable = () => {
     setSnackbarSeverity(severity);
     setSnackbarOpen(show);
   };
-
-  
   return (
     <div className="d-flex">
-      <ScrapyardSidebar />
+      <CompanySidebar />
       <div className="container">
       <div className="dashboard-content">
       <div className='float-end'>
@@ -58,8 +60,11 @@ const SScrapsTable = () => {
           <hr/>
         </div>
     
+    <div className="d-flex justify-content-between">
     <div className="dashboard-title">
-        <h3>Company listed products</h3>
+        <h3>Products listed by you</h3>
+    </div>
+        <button className="btn btn-primary h-50 mt-4" onClick={handleOpenModal}>+ Add product</button>
     </div>
     <div class="table-responsive">
         <table className="table table-hover table-dark">
@@ -78,16 +83,16 @@ const SScrapsTable = () => {
           </thead>
           <tbody>
             {allProductsList.map((record) => {
-              return <SScrapTableRow record={record} />;
+              return <CompScrapTableRow record={record} />;
             })}
           </tbody>
         </table>
         </div>
-        <SAddProduct open={isModalOpen} onClose={handleCloseModal} />
+        <CAddProduct open={isModalOpen} onClose={handleCloseModal} />
       </div>
     </div>
     </div>
   );
 };
 
-export default SScrapsTable;
+export default CompScrapsTable;

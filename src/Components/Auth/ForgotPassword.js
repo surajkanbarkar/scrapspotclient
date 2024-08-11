@@ -5,6 +5,7 @@ import Navbar from "../Common/Navbar";
 import { Box, TextField } from "@mui/material";
 import { ValidateEmail, ValidatePassword } from "./Validation";
 import Toast from "../Common/Snackbar";
+import AuthService from "../../Services/AuthService";
 
 const ForgotPassword = () => {
   const navigate = useNavigate();
@@ -38,23 +39,37 @@ const ForgotPassword = () => {
       return false;
     }
     else if (validate()){
-      let formData = new FormData();
-      formData.append("email", email)
-      formData.append("password", password);
-      formData.append("confirmPassword", confirmPassword);
-
-      //navigate("/dashboard");
-      setSnackbarMessage('Password changed successfully!');
-      setSnackbarSeverity('success');
-      setSnackbarOpen(true);
-
-      setTimeout(() => {
-        
-      }, 6000);
+      const formData = {
+        "email": email,
+        "password": password,
+        "confirmPassword": confirmPassword
+      }
+      await AuthService.ForgotPassword(formData)
+          .then(response => {
+            console.log(response)
+            if (response.status === 200) {
+              handleSnackbar(response.data, "success", true);
+              setTimeout(()=>{
+                  navigate("/signin");
+              }, 1000)
+              
+            }
+            else{
+                handleSnackbar(response, "error", true);
+            }
+          })
+          .catch(error => {
+            // handleSnackbar(error.response, "error", true);
+        })
       
     }
   }
 
+  const handleSnackbar = (message, severity, show) => {
+    setSnackbarMessage(message);
+    setSnackbarSeverity(severity);
+    setSnackbarOpen(show);
+  };
   const handleSnackbarClose = () => {
     setSnackbarOpen(false);
   };
