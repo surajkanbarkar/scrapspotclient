@@ -1,6 +1,6 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { Link } from 'react-router-dom';
-import { Toolbar, Typography, Container, Box, Button, Menu, MenuItem } from '@mui/material';
+import { Toolbar, Typography, Container, Box, Button } from '@mui/material';
 import { BRANDNAME } from '../../Services/Utils';
 
 const Navbar = () => {

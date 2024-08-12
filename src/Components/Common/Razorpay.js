@@ -31,7 +31,7 @@ const Razorpay = (amount) => {
         image: "https://your-logo-url.com/logo.png",
         handler: function (response) {
           console.log(response.razorpay_payment_id);
-          resolve(response.razorpay_payment_id); // Resolve the promise with the response
+          resolve(response.razorpay_payment_id);
         },
         prefill: {
           name: "Suraj Kanbarkar",
@@ -49,7 +49,7 @@ const Razorpay = (amount) => {
       const rzp = new window.Razorpay(options);
       rzp.on("payment.failed", function (response) {
         alert(`Payment failed! Error: ${response.error.description}`);
-        reject(response.error); // Reject the promise with the error
+        reject(response.error);
       });
 
       rzp.open();

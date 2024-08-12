@@ -1,26 +1,16 @@
 import {
   Box,
-  Button,
   FormControl,
-  InputLabel,
-  MenuItem,
   Modal,
-  Select,
   TextField,
   Typography,
 } from "@mui/material";
 import React, { useEffect, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
 import Toast from "../Common/Snackbar";
-import CompanyService from "../../Services/CompanyService";
-import { useNavigate } from "react-router-dom";
-import {CompScrapsTable} from "./CompScrapsTable";
 import ScrapyardService from "../../Services/ScrapyardService";
 
 
 const CompUpdateProduct = ({ open, onClose, product }) => {
-  const navigate = useNavigate();
-  const dispatch = useDispatch();
   const [productId, setProductId] = useState(0);
   const [productName, setProductName] = useState(product.productName || '');
   const [categoryId, setCategoryId] = useState(product.category?.categoryId || '');

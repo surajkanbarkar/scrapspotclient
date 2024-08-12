@@ -1,24 +1,19 @@
 import React, { useEffect, useState } from "react";
 import {
   Box,
-  Container,
   Typography,
   Card,
   CardContent,
   TextField,
-  Grid,
-  Button,
+  Grid
 } from "@mui/material";
-import CompanySidebar from "../Common/CompanySidebar";
 import Toast from "../Common/Snackbar";
-import { useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
 import ScrapyardSidebar from "../Common/ScrapyardSidebar";
 import LogoutMenu from "../Common/LogoutMenu";
 import AuthService from "../../Services/AuthService";
 
 const ScrapyardProfile = () => {
-  const navigate = useNavigate();
   const [snackbarOpen, setSnackbarOpen] = useState(false);
   const [snackbarMessage, setSnackbarMessage] = useState("");
   const [snackbarSeverity, setSnackbarSeverity] = useState("success");

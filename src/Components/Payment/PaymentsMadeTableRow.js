@@ -3,7 +3,7 @@ import React from "react";
 const PaymentsMadeTableRow = ({record}) => {
     return(
 
-        <tr class="table-primary">
+        <tr className="table-primary">
             <td>{record.srNo}</td>
             <td>{record.transactionId}</td>
             <td>{record.receivedFrom}</td>

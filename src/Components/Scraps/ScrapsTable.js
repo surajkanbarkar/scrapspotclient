@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 import ScrapTableRow from "./ScrapTableRow";
 import CompanySidebar from "../Common/CompanySidebar";
-import { Box, Button } from "@mui/material";
 import AddProduct from "../Company/CAddProduct";
 
 const ScrapsTable = () => {
@@ -38,8 +37,8 @@ const ScrapsTable = () => {
       <CompanySidebar />
 
       <div className="container">
-      <div class="d-flex justify-content-between align-items-center">
-    <h1 class="dashboard-title">View products</h1>
+      <div className="d-flex justify-content-between align-items-center">
+    <h1 className="dashboard-title">View products</h1>
     <button className="btn btn-primary" onClick={handleOpenModal}>+ Add product</button>
     
   </div>
@@ -57,8 +56,8 @@ const ScrapsTable = () => {
             </tr>
           </thead>
           <tbody>
-            {records.map((record) => {
-              return <ScrapTableRow record={record} />;
+            {records.map((record, index) => {
+              return <ScrapTableRow record={record} key={index}/>;
             })}
           </tbody>
         </table>

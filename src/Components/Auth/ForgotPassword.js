@@ -1,6 +1,5 @@
 import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { BRANDNAME } from "../../Services/Utils";
 import Navbar from "../Common/Navbar";
 import { Box, TextField } from "@mui/material";
 import { ValidateEmail, ValidatePassword } from "./Validation";
@@ -59,7 +58,6 @@ const ForgotPassword = () => {
             }
           })
           .catch(error => {
-            // handleSnackbar(error.response, "error", true);
         })
       
     }

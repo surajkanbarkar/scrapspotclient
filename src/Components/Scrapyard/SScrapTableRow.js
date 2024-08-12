@@ -25,7 +25,7 @@ const SScrapTableRow = ({record}) => {
 
     return(
         <>
-        <tr class="table-secondary" key={product.productId}>
+        <tr className="table-secondary" key={product.productId}>
             <td>{product.productId}</td>
             <td>{product.category?.categoryName}</td>
             <td>{product.productName}</td>

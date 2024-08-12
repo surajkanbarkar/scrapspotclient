@@ -1,6 +1,4 @@
 import React, { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
-import SScrapBuyItem from "./SScrapBuyItem";
 import { useDispatch } from "react-redux";
 import { ActionCreator } from "../../State/Actions/ActionCreator";
 import SUpdateProduct from "./SUpdateProduct";

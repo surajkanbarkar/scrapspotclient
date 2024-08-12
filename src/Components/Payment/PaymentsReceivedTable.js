@@ -28,8 +28,8 @@ const PaymentsReceivedTable = () => {
         <div className="dashboard-title">
           <h2>Payments received</h2>
         </div>
-        <div class="table-responsive mt-5">
-          <table class="table table-hover table-dark">
+        <div className="table-responsive mt-5">
+          <table className="table table-hover table-dark">
             <thead>
               <tr>
                 <th scope="col">Sr. No.</th>
@@ -42,11 +42,11 @@ const PaymentsReceivedTable = () => {
               </tr>
             </thead>
             <tbody>
-            {transactions.map((record) => {
+            {transactions.map((record, index) => {
                 if (record.someCondition) {
-                    return <PaymentsTableRow key={record.id} record={record} />;
+                    return <PaymentsTableRow key={index} record={record} />;
                 } else {
-                    return <div key={record.id}>No data available</div>;
+                    return <div key={0}>No data available</div>;
                 }
             })}
             </tbody>

@@ -1,11 +1,8 @@
 import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { Box, Button, Container, TextField, Typography, Grid, Snackbar, Alert, FormControl, InputLabel, Select, MenuItem } from "@mui/material";
-import { BRANDNAME } from "../../Services/Utils";
+import { Box, TextField, Grid, FormControl, InputLabel, Select, MenuItem } from "@mui/material";
 import Navbar from "../Common/Navbar";
 import Toast from "../Common/Snackbar";
-import { useDispatch } from "react-redux";
-import { ActionCreator } from "../../State/Actions/ActionCreator";
 import AuthService from "../../Services/AuthService";
 import { ValidateEmail, ValidatePassword } from "./Validation";
 
@@ -23,10 +20,6 @@ const Signup = () => {
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
   const [userRole, setUserRole] = useState();
-  const [errors, setErrors] = useState({});
-
-  const dispatch = useDispatch();
-    
 
   const handleSnackbarClose = () => {
     setSnackbarOpen(false);
@@ -34,12 +27,9 @@ const Signup = () => {
   const validate = () => {
     const tempErrors = {};
     let isValid = true;
-    console.log(email + "----" + password);
     isValid = ValidateEmail(email, tempErrors) && isValid;
     isValid = ValidatePassword(password, tempErrors, "password") && isValid;
 
-    console.log(tempErrors);
-    setErrors(tempErrors);
     return isValid;
   };
   const handleSignUp = async () => {
@@ -49,7 +39,6 @@ const Signup = () => {
       setSnackbarOpen(true);
       return;
     }
-    //dispatch(ActionCreator.SetUserProfile({"email": email, "password": password}));
     if (validate()) {
       let formData = {
       "email": email,

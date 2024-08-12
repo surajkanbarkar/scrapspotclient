@@ -4,7 +4,7 @@ import PaymentInvoice from "../Payment/PaymentInvoice";
 const CompPaymentsReceivedTableRow = ({record}) => {
 
     return(
-        <tr class="table-secondary">
+        <tr className="table-secondary">
             <td>{record.srNo}</td>
             <td>{record.transactionId}</td>
             <td>{record.receivedFrom}</td>

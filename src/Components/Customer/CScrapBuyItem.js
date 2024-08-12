@@ -8,8 +8,7 @@ import {
     TextField,
     Typography,
   } from "@mui/material";
-  import React, { useEffect, useState } from "react";
-  import { useSelector } from "react-redux";
+  import React, { useState } from "react";
   import Toast from "../Common/Snackbar";
 import Razorpay from "../Common/Razorpay";
 import ScrapyardService from "../../Services/ScrapyardService";
@@ -106,7 +105,7 @@ import ScrapyardService from "../../Services/ScrapyardService";
               </FormControl>
             </Box>
             <Box sx={{ mt: 3, textAlign: "right" }}>
-              <button type="button" class="btn btn-dark" onClick={() => handlePayment(product.totalAmount)}>
+              <button type="button" className="btn btn-dark" onClick={() => handlePayment(product.totalAmount)}>
                 Buy product
               </button>
             </Box>

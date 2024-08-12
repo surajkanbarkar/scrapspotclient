@@ -1,5 +1,4 @@
-import React, { useState } from 'react';
-import { TextField, Button, Typography } from '@mui/material';
+import React from 'react';
 import jsPDF from 'jspdf';
 
 const PaymentInvoice = ({record}) => {

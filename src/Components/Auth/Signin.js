@@ -1,7 +1,7 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import Navbar from "../Common/Navbar";
-import { Box, Button, TextField } from "@mui/material";
+import { Box, TextField } from "@mui/material";
 import { ValidateEmail, ValidatePassword } from "./Validation";
 import Toast from "../Common/Snackbar";
 import AuthService from "../../Services/AuthService";
@@ -16,12 +16,8 @@ const Signin = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [errors, setErrors] = useState({});
-  const [userRole, setUserRole] = useState(null);
   const dispatch = useDispatch()
 
-  useEffect(()=>{
-    // LoggedInUser(localStorage.getItem("userId"))
-  })
   const validate = () => {
     const tempErrors = {};
     let isValid = true;
@@ -32,18 +28,6 @@ const Signin = () => {
     return isValid;
   };
 
-  // const LoggedInUser = (userProfileId)=>{
-  //   if (userProfileId !== undefined){
-  //     AuthService.VerifyUser(userProfileId)
-  //     .then(response =>{
-  //       redirectBasedOnRole(response.data.userProfile.userRole)
-  //     })
-  //     .catch(error=>{
-  //       // localStorage.clear();
-  //       //navigate("/signin");
-  //     })
-  //   }
-  // }
   const redirectBasedOnRole = (role)=>{
     console.log(role)
     setTimeout(()=>{

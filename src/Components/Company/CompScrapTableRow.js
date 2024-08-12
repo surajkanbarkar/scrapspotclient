@@ -53,7 +53,7 @@ const CompScrapTableRow = ({ record }) => {
       };
 
     return (
-        <tr className="table-secondary" key={product.productId}>
+        <tr className="table-secondary">
             <td>{product.productId}</td>
             <td>{product.category?.categoryName}</td>
             <td>{product.productName}</td>
