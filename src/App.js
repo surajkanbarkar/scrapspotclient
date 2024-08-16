@@ -1,9 +1,12 @@
+import logo from './logo.svg';
+// import './App.css';
 import '../src/Static/Style.css'
-import { BrowserRouter, Route, Routes, Navigate } from 'react-router-dom';
+import { BrowserRouter, Route, Routes, Link, Navigate } from 'react-router-dom';
 import CompanyDashboard from './Components/Company/CompanyDashboard';
 import Signup from './Components/Auth/Signup';
 import Signin from './Components/Auth/Signin';
 import ForgotPassword from './Components/Auth/ForgotPassword';
+import ScrapsTable from './Components/Scraps/ScrapsTable';
 import CustomerDashboard from './Components/Customer/CustomerDashboard';
 import ScrapyardDashboard from './Components/Scrapyard/ScrapyardDashboard';
 import PaymentsReceivedTable from './Components/Payment/PaymentsReceivedTable';
@@ -18,6 +21,8 @@ import CustomerTransactions from './Components/Customer/CustomerTransactions';
 import CScrapsTable from './Components/Customer/CScrapsTable';
 import CompPaymentsReceivedTable from './Components/Company/CompPaymentsReceivedTable';
 import CompScrapsTable from './Components/Company/CompScrapsTable';
+import Frontpage from './frontpage';
+import Footer from './Components/Common/footer';
 
 
 function App() {
@@ -25,6 +30,9 @@ function App() {
     <div className="App">
       <BrowserRouter >
         <Routes>
+          
+        <Route path="/" exact element={<Frontpage />} />
+
           <Route path="/" exact element={<Signin />} />
           <Route path="/signup" exact element={<Signup />} />
           <Route path="/signin" exact element={<Signin />} />
@@ -52,6 +60,7 @@ function App() {
           <Route path="*" element={<Navigate to="/" />} />
         </Routes>
       </BrowserRouter>
+      {/* <Footer /> */}
     </div>
   );
 }

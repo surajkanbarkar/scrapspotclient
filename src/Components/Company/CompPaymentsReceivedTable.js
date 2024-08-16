@@ -1,4 +1,7 @@
 import React from "react";
+import Sidebar from "../Common/CompanySidebar";
+import PaymentsTableRow from "../Payment/PaymentsReceivedTableRow";
+import ScrapyardSidebar from "../Common/ScrapyardSidebar";
 import CompPaymentsReceivedTableRow from "./CompPaymentsReceivedTableRow";
 import LogoutMenu from "../Common/LogoutMenu";
 import CompanySidebar from "../Common/CompanySidebar";
@@ -36,8 +39,8 @@ const CompPaymentsReceivedTable = () => {
             <h1>Payments received</h1>
             <hr />
           </div>
-          <div className="table-responsive mt-5">
-            <table className="table table-hover table-dark">
+          <div class="table-responsive mt-5">
+            <table class="table table-hover table-dark">
               <thead>
                 <tr>
                   <th scope="col">Sr. No.</th>
@@ -51,7 +54,7 @@ const CompPaymentsReceivedTable = () => {
               </thead>
               <tbody>
                 {transactions.map((record) => {
-                  return <CompPaymentsReceivedTableRow record={record} key={record.srNo}/>;
+                  return <CompPaymentsReceivedTableRow record={record} />;
                 })}
               </tbody>
             </table>

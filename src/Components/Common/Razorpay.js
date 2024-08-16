@@ -1,6 +1,9 @@
 
 const Razorpay = (amount) => {
   const RAZORPAY_KEY_ID = "rzp_test_q5pCm6YsxMpdnN";
+  const name = localStorage.getItem("name");
+  const email = localStorage.getItem("email");
+  const mobile = localStorage.getItem("mobile");
 
   const loadRazorpayScript = () => {
     return new Promise((resolve) => {
@@ -13,7 +16,6 @@ const Razorpay = (amount) => {
   };
 
   return new Promise(async (resolve, reject) => {
-    console.log(amount);
     if (amount !== undefined && amount >= 100) {
       const scriptLoaded = await loadRazorpayScript();
       if (!scriptLoaded) {
@@ -26,17 +28,16 @@ const Razorpay = (amount) => {
         key: RAZORPAY_KEY_ID,
         amount: amount * 100,
         currency: "INR",
-        name: "Your Company Name",
+        name: "Scrapsavvy",
         description: "Test Transaction",
         image: "https://your-logo-url.com/logo.png",
         handler: function (response) {
-          console.log(response.razorpay_payment_id);
-          resolve(response.razorpay_payment_id);
+          resolve(response.razorpay_payment_id); // Resolve the promise with the response
         },
         prefill: {
-          name: "Suraj Kanbarkar",
-          email: "youremail@example.com",
-          contact: "9999999999",
+          name: name,
+          email: email,
+          contact: mobile,
         },
         notes: {
           address: "IET Pune",
@@ -44,12 +45,22 @@ const Razorpay = (amount) => {
         theme: {
           color: "#F37254",
         },
+        config: {
+          display: {
+            hide: [
+            { method: 'card' },
+            { method: 'wallet' },
+            { method: 'emi' }
+          ],
+          preferences: { show_default_blocks: true }
+          }
+        }
       };
 
       const rzp = new window.Razorpay(options);
       rzp.on("payment.failed", function (response) {
         alert(`Payment failed! Error: ${response.error.description}`);
-        reject(response.error);
+        reject(response.error); // Reject the promise with the error
       });
 
       rzp.open();

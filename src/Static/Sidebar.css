@@ -28,15 +28,8 @@
     transition: all 0.3s ease;
   }
   
-  /* #page-content-wrapper {
-    flex: 1;
-    padding: 20px;
-    transition: all 0.3s ease;
-  } */
-  
   @media (min-width: 992px) {
     #page-content-wrapper {
-      /* Adjust based on sidebar width */
       margin-left: 250px; 
     }
   }
@@ -75,7 +68,6 @@
     flex: 1;
   }
   
-  // For smaller screens
   .offcanvas {
     margin-top: 8px;
     border: none;

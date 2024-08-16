@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import '../.././Static/Dashboard.css';
 import CompanySidebar from '../Common/CompanySidebar';
 import LogoutMenu from '../Common/LogoutMenu';

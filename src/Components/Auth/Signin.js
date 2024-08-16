@@ -1,12 +1,21 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import Navbar from "../Common/Navbar";
-import { Box, TextField } from "@mui/material";
+import {
+  Box,
+  FormControl,
+  IconButton,
+  InputAdornment,
+  InputLabel,
+  OutlinedInput,
+  TextField,
+} from "@mui/material";
 import { ValidateEmail, ValidatePassword } from "./Validation";
 import Toast from "../Common/Snackbar";
 import AuthService from "../../Services/AuthService";
 import { useDispatch } from "react-redux";
 import { ActionCreator } from "../../State/Actions/ActionCreator";
+import { Visibility, VisibilityOff } from "@mui/icons-material";
 
 const Signin = () => {
   const navigate = useNavigate();
@@ -16,8 +25,12 @@ const Signin = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [errors, setErrors] = useState({});
-  const dispatch = useDispatch()
+  const dispatch = useDispatch();
+  const [showPassword, setShowPassword] = useState(false);
 
+  useEffect(() => {
+    // LoggedInUser(localStorage.getItem("userId"))
+  });
   const validate = () => {
     const tempErrors = {};
     let isValid = true;
@@ -28,49 +41,59 @@ const Signin = () => {
     return isValid;
   };
 
-  const redirectBasedOnRole = (role)=>{
-    console.log(role)
-    setTimeout(()=>{
-      if (role === "company"){
+  // const LoggedInUser = (userProfileId)=>{
+  //   if (userProfileId !== undefined){
+  //     AuthService.VerifyUser(userProfileId)
+  //     .then(response =>{
+  //       redirectBasedOnRole(response.data.userProfile.userRole)
+  //     })
+  //     .catch(error=>{
+  //       // localStorage.clear();
+  //       //navigate("/signin");
+  //     })
+  //   }
+  // }
+  const redirectBasedOnRole = (role) => {
+    setTimeout(() => {
+      if (role === "company") {
         navigate("/company-dashboard");
-      }
-      else if (role === "scrapyard"){
+      } else if (role === "scrapyard") {
         navigate("/scrapyard-dashboard");
-      }
-      else if (role === "customer"){
+      } else if (role === "customer") {
         navigate("/customer-dashboard");
       }
-    }, 2000)
-  }
+    }, 2000);
+  };
   const handleSignin = async (e) => {
     e.preventDefault();
-      if (validate()) {
-        const formData = {
-          email: email,
-          password: password
-        };
+    if (validate()) {
+      const formData = {
+        email: email,
+        password: password,
+      };
 
-          await AuthService.SignIn(formData)
-          .then(response => {
-            console.log(response)
-            if (response.status === 200) {
-              handleSnackbar("Sign-in successful!", "success", true);
-              localStorage.setItem("token", response.data.token)
-              localStorage.setItem("userId", response.data.userProfile.userProfileId)
-              redirectBasedOnRole(response.data.userProfile.userRole);
-              dispatch(ActionCreator.SetUserToken(response.data.token));
-
-            }
-            else{
-                handleSnackbar("Server error!", "error", true);
-            }
-          })
-          .catch(error => {
-            handleSnackbar(error.response.data, "error", true);
+      await AuthService.SignIn(formData)
+        .then((response) => {
+          if (response.status === 200) {
+            localStorage.setItem("name", response.data.userProfile.name);
+            localStorage.setItem("email", response.data.userProfile.emailId);
+            localStorage.setItem("mobile", response.data.userProfile.mobile);
+            handleSnackbar("Sign-in successful!", "success", true);
+            localStorage.setItem("token", response.data.token);
+            localStorage.setItem(
+              "userId",
+              response.data.userProfile.userProfileId
+            );
+            redirectBasedOnRole(response.data.userProfile.userRole);
+            dispatch(ActionCreator.SetUserToken(response.data.token));
+          } else {
+            handleSnackbar("Server error!", "error", true);
+          }
         })
-          
-    }
-    else {
+        .catch((error) => {
+          handleSnackbar(error.response.data, "error", true);
+        });
+    } else {
       handleSnackbar("Invalid credentials!", "error", true);
     }
   };
@@ -83,6 +106,13 @@ const Signin = () => {
   const handleSnackbarClose = () => {
     setSnackbarOpen(false);
   };
+
+  const handleClickShowPassword = () => setShowPassword((show) => !show);
+
+  const handleMouseDownPassword = (event) => {
+    event.preventDefault();
+  };
+
   return (
     <>
       <Navbar />
@@ -103,17 +133,45 @@ const Signin = () => {
               margin="normal"
             />
 
-            <TextField
-              label="Password"
-              type="password"
-              variant="outlined"
-              fullWidth
-              value={password}
+            {/* <TextField
+              
+              
               onChange={(e) => setPassword(e.target.value)}
               error={!!errors.password}
               helperText={errors.password}
               margin="normal"
-            />
+            /> */}
+
+            {/* <button onClick={changeVisibility} >Visibility</button> */}
+
+            <FormControl variant="outlined">
+              <InputLabel htmlFor="outlined-adornment-password">
+                Password
+              </InputLabel>
+              <OutlinedInput
+                id="outlined-adornment-password"
+                type={showPassword ? "text" : "password"}
+                fullWidth
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                error={!!errors.password}
+                helperText={errors.password}
+                endAdornment={
+                  <InputAdornment position="end">
+                    <IconButton
+                      aria-label="toggle password visibility"
+                      onClick={handleClickShowPassword}
+                      onMouseDown={handleMouseDownPassword}
+                      edge="end"
+                    >
+                      {showPassword ? <VisibilityOff /> : <Visibility />}
+                    </IconButton>
+                  </InputAdornment>
+                }
+                label="Password"
+              />
+            </FormControl>
+
             <button
               type="button"
               className="btn btn-primary w-100 mt-3"

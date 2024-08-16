@@ -4,12 +4,10 @@ import { BASEURL } from "./Utils";
  class AuthService {
     
     SignIn(formData){
-        console.log(formData)
         const API = BASEURL + "/user/login";
         return axios.post(API, formData);
     }
     SignUp(formData){
-        console.log(formData)
         const API = BASEURL + "/user/signup";
         return axios.post(API, formData, {
             headers: {

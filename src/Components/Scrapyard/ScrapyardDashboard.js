@@ -1,5 +1,8 @@
-import React from 'react';
+import React, { useState } from 'react';
 import '../.././Static/Dashboard.css';
+import CompanySidebar from '../Common/CompanySidebar';
+import { useSelector } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
 import ScrapyardSidebar from '../Common/ScrapyardSidebar';
 import LogoutMenu from '../Common/LogoutMenu';
 

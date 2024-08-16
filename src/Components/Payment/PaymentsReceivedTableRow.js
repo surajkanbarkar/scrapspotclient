@@ -7,7 +7,7 @@ const PaymentsReceivedTableRow = ({record}) => {
 
     return(
 
-        <tr className="table-secondary">
+        <tr class="table-secondary">
             <td>{record.srNo}</td>
             <td>{record.transactionId}</td>
             <td>{record.receivedFrom}</td>

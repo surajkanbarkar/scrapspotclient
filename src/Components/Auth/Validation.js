@@ -5,8 +5,8 @@ export const ValidateEmail = (email, tempErrors) => {
     if (!email) {
         tempErrors["email"] = "Email is required";
         isValid = false;
-    } else if (!/\S+@\S+\.\S+/.test(email)) {
-        tempErrors["email"] = "Email is not valid";
+    } else if (!/^[a-zA-Z0-9._%+-]+@gmail\.com$/.test(email)) {
+        tempErrors["email"] = "Only gmail id is accepted";
         isValid = false;
     }
 

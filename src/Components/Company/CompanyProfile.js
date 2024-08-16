@@ -38,8 +38,6 @@ const CompanyProfile = () => {
     setSnackbarSeverity("success");
     setSnackbarOpen(true);
 
-    console.log(userState.User.state);
-
     let formData = new FormData();
     formData.append("fullName", fullName);
     formData.append("email", email);
@@ -47,6 +45,9 @@ const CompanyProfile = () => {
     formData.append("companyName", companyName);
     formData.append("companyAddress", companyAddress);
     formData.append("token", userState.User.state.token);
+    setTimeout(() => {
+      //navigate("/dashboard");
+    }, 6000);
   };
 
   const handleBankDetailsChange = async () => {
@@ -60,7 +61,10 @@ const CompanyProfile = () => {
     formData.append("accountNumber", accountNumber);
     formData.append("branchName", branchName);
     formData.append("token", userState.User.state.token);
-    
+
+    setTimeout(() => {
+      //navigate("/dashboard");
+    }, 6000);
   };
 
   return (

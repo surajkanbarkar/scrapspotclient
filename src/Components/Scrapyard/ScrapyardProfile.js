@@ -1,19 +1,24 @@
 import React, { useEffect, useState } from "react";
 import {
   Box,
+  Container,
   Typography,
   Card,
   CardContent,
   TextField,
-  Grid
+  Grid,
+  Button,
 } from "@mui/material";
+import CompanySidebar from "../Common/CompanySidebar";
 import Toast from "../Common/Snackbar";
+import { useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
 import ScrapyardSidebar from "../Common/ScrapyardSidebar";
 import LogoutMenu from "../Common/LogoutMenu";
 import AuthService from "../../Services/AuthService";
 
 const ScrapyardProfile = () => {
+  const navigate = useNavigate();
   const [snackbarOpen, setSnackbarOpen] = useState(false);
   const [snackbarMessage, setSnackbarMessage] = useState("");
   const [snackbarSeverity, setSnackbarSeverity] = useState("success");
@@ -38,7 +43,6 @@ const ScrapyardProfile = () => {
     const userProfileId = localStorage.getItem("userId");
     await AuthService.UserProfile(userProfileId)
       .then((response) => {
-        console.log(response.data)
         setFullName(response.data.name);
         setEmail(response.data.emailId);
         setPhoneNumber(response.data.mobile);
@@ -83,8 +87,6 @@ const ScrapyardProfile = () => {
     setSnackbarMessage("Bank details updated successfully");
     setSnackbarSeverity("success");
     setSnackbarOpen(true);
-
-    console.log(userState.User.state);
 
     let formData = new FormData();
     formData.append("bankName", bankName);

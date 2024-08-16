@@ -1,18 +1,22 @@
 import {
   Box,
+  Button,
   FormControl,
   InputLabel,
   MenuItem,
   Modal,
   Select,
+  TextareaAutosize,
   TextField,
   Typography,
 } from "@mui/material";
 import React, { useEffect, useState } from "react";
+import { useSelector } from "react-redux";
 import Toast from "../Common/Snackbar";
 import CompanyService from "../../Services/CompanyService";
 
 const SAddProduct = ({ open, onClose }) => {
+  let userState = useSelector((state) => state.User);
   const [productName, setProductName] = useState('');
   const [productCategory, setProductCategory] = useState('');
   const [categoryId, setCategorId] = useState('');
@@ -30,12 +34,12 @@ const SAddProduct = ({ open, onClose }) => {
   },[])
 
   const getCategories = async () =>{
-    console.log("called categories")
     await CompanyService.GetProductCategories()
     .then(response => {
-      console.log(response)
       if (response.status === 200) {
         setProductCategories(response.data)
+      //   dispatch(ActionCreator.SetUserToken(response.data.token))
+      //   dispatch(ActionCreator.SetUserProfile(response.data.userProfile))
       }
     })
       .catch(error => {
@@ -182,7 +186,7 @@ const SAddProduct = ({ open, onClose }) => {
             </FormControl>
           </Box>
           <Box sx={{ mt: 3, textAlign: "right" }}>
-            <button type="button" className="btn btn-dark" onClick={handleAddProduct}>
+            <button type="button" class="btn btn-dark" onClick={handleAddProduct}>
               Add product
             </button>
           </Box>

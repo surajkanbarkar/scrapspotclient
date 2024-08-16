@@ -1,4 +1,5 @@
 import React from "react";
+import Sidebar from "../Common/CompanySidebar";
 import PaymentsTableRow from "./PaymentsReceivedTableRow";
 
 const PaymentsMadeTable = () => {
@@ -27,8 +28,8 @@ const PaymentsMadeTable = () => {
         <div className="dashboard-title">
           <h2>Your transactions</h2>
         </div>
-        <div className="table-responsive mt-5">
-          <table className="table table-hover table-dark">
+        <div class="table-responsive mt-5">
+          <table class="table table-hover table-dark">
             <thead>
               <tr>
                 <th scope="col">Sr. No.</th>
@@ -42,7 +43,7 @@ const PaymentsMadeTable = () => {
             </thead>
             <tbody>
               {transactions.map((record) => {
-                return <PaymentsTableRow record={record} key={record.srNo}/>;
+                return <PaymentsTableRow record={record} />;
               })}
             </tbody>
           </table>

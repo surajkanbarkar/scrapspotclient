@@ -1,9 +1,15 @@
 import React, { useState } from "react";
+import AddProduct from "../Company/CAddProduct";
+import ScrapyardSidebar from "../Common/ScrapyardSidebar";
 import LogoutMenu from "../Common/LogoutMenu";
 import CScrapTableRow from "./CScrapTableRow";
 import CustomerSidebar from "../Common/CustomerSidebar";
 
 const CScrapsTable = () => {
+  const [isModalOpen, setIsModalOpen] = useState(false);
+
+  const handleOpenModal = () => setIsModalOpen(true);
+  const handleCloseModal = () => setIsModalOpen(false);
 
   const records = [
     {
@@ -44,7 +50,7 @@ const CScrapsTable = () => {
     <div className="dashboard-title">
         <h3>Scrapyard listed products</h3>
     </div>
-    <div className="table-responsive">
+    <div class="table-responsive">
         <table className="table table-hover table-dark">
           <thead>
             <tr>
@@ -60,7 +66,7 @@ const CScrapsTable = () => {
           </thead>
           <tbody>
             {records.map((record) => {
-              return <CScrapTableRow product={record} key={record.srNo}/>;
+              return <CScrapTableRow product={record} />;
             })}
           </tbody>
         </table>

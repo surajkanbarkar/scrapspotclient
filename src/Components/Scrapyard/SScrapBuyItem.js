@@ -1,11 +1,15 @@
 import {
     Box,
     FormControl,
+    InputLabel,
+    MenuItem,
     Modal,
+    Select,
     TextField,
-    Typography
+    Typography,
   } from "@mui/material";
   import React, { useEffect, useState } from "react";
+  import { useSelector } from "react-redux";
   import Toast from "../Common/Snackbar";
 import Razorpay from "../Common/Razorpay";
 import ScrapyardService from "../../Services/ScrapyardService";
@@ -45,7 +49,6 @@ import ScrapyardService from "../../Services/ScrapyardService";
       
       try {
         let paymentDetails = await Razorpay(amount);
-        console.log(paymentDetails)
         if (paymentDetails !== undefined){
           let userProfileId = localStorage.getItem("userId")
           let formData = {
@@ -142,7 +145,7 @@ import ScrapyardService from "../../Services/ScrapyardService";
             </FormControl>
           </Box>
             <Box sx={{ mt: 3, textAlign: "right" }}>
-              <button type="button" className="btn btn-dark" onClick={() => handlePayment(totalAmount)}>
+              <button type="button" class="btn btn-dark" onClick={() => handlePayment(totalAmount)}>
                 Buy product
               </button>
             </Box>

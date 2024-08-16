@@ -42,8 +42,6 @@ const Profile = () => {
     setSnackbarSeverity("success");
     setSnackbarOpen(true);
 
-    console.log(userState.User.state);
-
     let formData = new FormData();
     formData.append("fullName", fullName);
     formData.append("email", email);
@@ -72,9 +70,6 @@ const Profile = () => {
 
   const handleBankDetailsChange = async () => {
     
-
-    console.log(userState.User.state);
-
     let formData = new FormData();
     formData.append("bankName", bankName);
     formData.append("ifscCode", ifscCode);

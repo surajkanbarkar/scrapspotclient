@@ -6,13 +6,16 @@ import {
   Card,
   CardContent,
   TextField,
-  Grid
+  Grid,
+  Button,
 } from "@mui/material";
 import CompanySidebar from "../Common/CompanySidebar";
 import Toast from "../Common/Snackbar";
+import { useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
 
 const CustomerProfile = () => {
+  const navigate = useNavigate();
   const [snackbarOpen, setSnackbarOpen] = useState(false);
   const [snackbarMessage, setSnackbarMessage] = useState("");
   const [snackbarSeverity, setSnackbarSeverity] = useState("success");
@@ -38,8 +41,6 @@ const CustomerProfile = () => {
     setSnackbarSeverity("success");
     setSnackbarOpen(true);
 
-    console.log(userState.User.state);
-
     let formData = new FormData();
     formData.append("fullName", fullName);
     formData.append("email", email);
@@ -47,6 +48,9 @@ const CustomerProfile = () => {
     formData.append("companyName", companyName);
     formData.append("companyAddress", companyAddress);
     formData.append("token", userState.User.state.token);
+    setTimeout(() => {
+      //navigate("/dashboard");
+    }, 6000);
   };
 
   const handleBankDetailsChange = async () => {
@@ -54,14 +58,16 @@ const CustomerProfile = () => {
     setSnackbarSeverity("success");
     setSnackbarOpen(true);
 
-    console.log(userState.User.state);
-
     let formData = new FormData();
     formData.append("bankName", bankName);
     formData.append("ifscCode", ifscCode);
     formData.append("accountNumber", accountNumber);
     formData.append("branchName", branchName);
+    formData.append("token", userState.User.state.token);
 
+    setTimeout(() => {
+      //navigate("/dashboard");
+    }, 6000);
   };
 
   return (

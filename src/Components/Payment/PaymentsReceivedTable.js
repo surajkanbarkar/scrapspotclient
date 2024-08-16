@@ -15,7 +15,6 @@ const PaymentsReceivedTable = () => {
     const userProfileId = localStorage.getItem("userId")
     PaymentService.GetAllPayments(userProfileId)
     .then(response => {
-      console.log(response.data)
       if (response.status === 200) {
         setTransactions(response.data);
       }
@@ -28,8 +27,8 @@ const PaymentsReceivedTable = () => {
         <div className="dashboard-title">
           <h2>Payments received</h2>
         </div>
-        <div className="table-responsive mt-5">
-          <table className="table table-hover table-dark">
+        <div class="table-responsive mt-5">
+          <table class="table table-hover table-dark">
             <thead>
               <tr>
                 <th scope="col">Sr. No.</th>
@@ -42,11 +41,11 @@ const PaymentsReceivedTable = () => {
               </tr>
             </thead>
             <tbody>
-            {transactions.map((record, index) => {
+            {transactions.map((record) => {
                 if (record.someCondition) {
-                    return <PaymentsTableRow key={index} record={record} />;
+                    return <PaymentsTableRow key={record.id} record={record} />;
                 } else {
-                    return <div key={0}>No data available</div>;
+                    return <div key={record.id}>No data available</div>;
                 }
             })}
             </tbody>

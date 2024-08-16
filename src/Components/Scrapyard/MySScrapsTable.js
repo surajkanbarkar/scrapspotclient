@@ -1,6 +1,11 @@
 import React, { useEffect, useState } from "react";
+import ScrapTableRow from "../Scraps/ScrapTableRow";
+import CompanySidebar from "../Common/CompanySidebar";
+import { Box, Button } from "@mui/material";
+import AddProduct from "../Company/CAddProduct";
 import ScrapyardSidebar from "../Common/ScrapyardSidebar";
 import LogoutMenu from "../Common/LogoutMenu";
+import SUpdateProduct from "./SUpdateProduct";
 import MySScrapTableRow from "./MySScrapTableRow";
 import SAddProduct from "./SAddProduct";
 import ScrapyardService from "../../Services/ScrapyardService";
@@ -61,7 +66,7 @@ const MySScrapsTable = () => {
     </div>
         <button className="btn btn-primary h-50 mt-4" onClick={handleOpenModal}>+ Add product</button>
     </div>
-    <div className="table-responsive">
+    <div class="table-responsive">
         <table className="table table-hover table-dark">
           <thead>
             <tr>

@@ -22,11 +22,13 @@ const CompScrapsTable = () => {
     getProducts();
   }, [])
 
+  const handleSnackbarClose = () => {
+    setSnackbarOpen(false);
+  };
   const getProducts = () =>{
     const userProfileId = localStorage.getItem("userId")
     CompanyService.GetAllProducts(userProfileId)
     .then(response => {
-      console.log(response.data);
       if (response.status === 200) {
         setAllProductsList(response.data);
         handleSnackbar("Data fetched", "success", true);
@@ -64,7 +66,7 @@ const CompScrapsTable = () => {
     </div>
         <button className="btn btn-primary h-50 mt-4" onClick={handleOpenModal}>+ Add product</button>
     </div>
-    <div className="table-responsive">
+    <div class="table-responsive">
         <table className="table table-hover table-dark">
           <thead>
             <tr>
@@ -81,7 +83,7 @@ const CompScrapsTable = () => {
           </thead>
           <tbody>
             {allProductsList.map((record) => {
-              return <CompScrapTableRow record={record} key={record.productId}/>;
+              return <CompScrapTableRow record={record} />;
             })}
           </tbody>
         </table>

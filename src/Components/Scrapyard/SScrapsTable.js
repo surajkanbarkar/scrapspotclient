@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import AddProduct from "../Company/CAddProduct";
 import ScrapyardSidebar from "../Common/ScrapyardSidebar";
 import LogoutMenu from "../Common/LogoutMenu";
 import SScrapTableRow from "./SScrapTableRow";
@@ -60,7 +61,7 @@ const SScrapsTable = () => {
     <div className="dashboard-title">
         <h3>Company listed products</h3>
     </div>
-    <div className="table-responsive">
+    <div class="table-responsive">
         <table className="table table-hover table-dark">
           <thead>
             <tr>

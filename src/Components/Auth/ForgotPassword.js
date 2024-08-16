@@ -1,10 +1,12 @@
 import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
+import { BRANDNAME } from "../../Services/Utils";
 import Navbar from "../Common/Navbar";
-import { Box, TextField } from "@mui/material";
+import { Box, FormControl, IconButton, InputAdornment, InputLabel, OutlinedInput, TextField } from "@mui/material";
 import { ValidateEmail, ValidatePassword } from "./Validation";
 import Toast from "../Common/Snackbar";
 import AuthService from "../../Services/AuthService";
+import { Visibility, VisibilityOff } from "@mui/icons-material";
 
 const ForgotPassword = () => {
   const navigate = useNavigate();
@@ -15,6 +17,7 @@ const ForgotPassword = () => {
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
   const [errors, setErrors] = useState({});
+  const [showPassword, setShowPassword] = useState(false);
   
 
   const validate = () => {
@@ -45,7 +48,6 @@ const ForgotPassword = () => {
       }
       await AuthService.ForgotPassword(formData)
           .then(response => {
-            console.log(response)
             if (response.status === 200) {
               handleSnackbar(response.data, "success", true);
               setTimeout(()=>{
@@ -58,6 +60,7 @@ const ForgotPassword = () => {
             }
           })
           .catch(error => {
+            handleSnackbar(error.response.data, "error", true);
         })
       
     }
@@ -70,6 +73,12 @@ const ForgotPassword = () => {
   };
   const handleSnackbarClose = () => {
     setSnackbarOpen(false);
+  };
+
+  const handleClickShowPassword = () => setShowPassword((show) => !show);
+
+  const handleMouseDownPassword = (event) => {
+    event.preventDefault();
   };
   return (
     <>
@@ -87,16 +96,60 @@ const ForgotPassword = () => {
                 helperText={errors.email}
                 margin="normal"
                 />
-              <TextField label="Password" type="password" variant="outlined" fullWidth value={password} onChange={(e) =>setPassword(e.target.value)}
-                error={!!errors.password}
-                helperText={errors.password}
-                margin="normal"
-                />
-              <TextField label="Comfirm password" type="password" variant="outlined" fullWidth value={confirmPassword} onChange={(e) => setConfirmPassword(e.target.value)}
-                error={!!errors.confirmPassword}
-                helperText={errors.confirmPassword}
-                margin="normal"
-                />
+              
+
+<FormControl variant="outlined">
+          <InputLabel htmlFor="outlined-adornment-password">Password</InputLabel>
+          <OutlinedInput
+            id="outlined-adornment-password"
+            type={showPassword ? 'text' : 'password'}
+            fullWidth
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+              error={!!errors.password}
+              helperText={errors.password}
+            endAdornment={
+              <InputAdornment position="end">
+                <IconButton
+                  aria-label="toggle password visibility"
+                  onClick={handleClickShowPassword}
+                  onMouseDown={handleMouseDownPassword}
+                  edge="end"
+                >
+                  {showPassword ? <VisibilityOff /> : <Visibility />}
+                </IconButton>
+              </InputAdornment>
+            }
+            label="Password"
+          />
+        </FormControl>
+
+        <FormControl variant="outlined">
+          <InputLabel htmlFor="outlined-adornment-password">Confirm password</InputLabel>
+          <OutlinedInput
+            id="outlined-adornment-password"
+            type={showPassword ? 'text' : 'password'}
+            fullWidth
+            value={password}
+            onChange={(e) => setConfirmPassword(e.target.value)}
+              error={!!errors.confirmPassword}
+              helperText={errors.confirmPassword}
+            endAdornment={
+              <InputAdornment position="end">
+                <IconButton
+                  aria-label="toggle password visibility"
+                  onClick={handleClickShowPassword}
+                  onMouseDown={handleMouseDownPassword}
+                  edge="end"
+                >
+                  {showPassword ? <VisibilityOff /> : <Visibility />}
+                </IconButton>
+              </InputAdornment>
+            }
+            label="Password"
+          />
+        </FormControl>
+              
               <div className="row">
             <div className="col-md-12">
               <button type="button" className="btn btn-primary w-100 mt-4" onClick={handleForgotPassword}>

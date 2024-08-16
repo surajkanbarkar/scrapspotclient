@@ -4,7 +4,6 @@ import jsPDF from 'jspdf';
 const PaymentInvoice = ({record}) => {
 
     const generatePDF = () => {
-        console.log(record);
         const doc = new jsPDF();
         doc.text(`Invoice Number: ${record.transactionId}`, 10, 10);
         doc.text(`Date: ${record.paidOn}`, 10, 20);
