@@ -42,6 +42,7 @@ const Signup = () => {
   const [userRole, setUserRole] = useState();
   const [errors, setErrors] = useState({});
   const [showPassword, setShowPassword] = useState(false);
+  const [showCPassword, setShowCPassword] = useState(false);
 
   const dispatch = useDispatch();
 
@@ -159,6 +160,12 @@ const Signup = () => {
   const handleClickShowPassword = () => setShowPassword((show) => !show);
 
   const handleMouseDownPassword = (event) => {
+    event.preventDefault();
+  };
+
+  const handleClickShowCPassword = () => setShowCPassword((show) => !show);
+
+  const handleMouseDownCPassword = (event) => {
     event.preventDefault();
   };
   return (
@@ -279,33 +286,31 @@ const Signup = () => {
               </FormControl>
             </Grid>
             <Grid item xs={12} sm={6}>
-              <FormControl variant="outlined">
-                <InputLabel htmlFor="outlined-adornment-password">
-                  Confirm password
-                </InputLabel>
-                <OutlinedInput
-                  id="outlined-adornment-password"
-                  type={showPassword ? "text" : "password"}
-                  fullWidth
-                  value={confirmPassword}
-                  onChange={(e) => setConfirmPassword(e.target.value)}
-                  error={!!errors.confirmPassword}
-                  helperText={errors.confirmPassword}
-                  endAdornment={
-                    <InputAdornment position="end">
-                      <IconButton
-                        aria-label="toggle password visibility"
-                        onClick={handleClickShowPassword}
-                        onMouseDown={handleMouseDownPassword}
-                        edge="end"
-                      >
-                        {showPassword ? <VisibilityOff /> : <Visibility />}
-                      </IconButton>
-                    </InputAdornment>
-                  }
-                  label="Password"
-                />
-              </FormControl>
+            <FormControl variant="outlined">
+          <InputLabel htmlFor="outlined-adornment-password">Confirm password</InputLabel>
+          <OutlinedInput
+            id="outlined-adornment-password"
+            type={showCPassword ? 'text' : 'password'}
+            fullWidth
+            value={confirmPassword}
+            onChange={(e) => setConfirmPassword(e.target.value)}
+              error={!!errors.confirmPassword}
+              helperText={errors.confirmPassword}
+            endAdornment={
+              <InputAdornment position="end">
+                <IconButton
+                  aria-label="toggle password visibility"
+                  onClick={handleClickShowCPassword}
+                  onMouseDown={handleMouseDownCPassword}
+                  edge="end"
+                >
+                  {showCPassword ? <VisibilityOff /> : <Visibility />}
+                </IconButton>
+              </InputAdornment>
+            }
+            label="Password"
+          />
+        </FormControl>
             </Grid>
           </Grid>
           <Grid container spacing={2} sx={{ mt: 4 }}>

@@ -18,6 +18,7 @@ const ForgotPassword = () => {
   const [confirmPassword, setConfirmPassword] = useState('');
   const [errors, setErrors] = useState({});
   const [showPassword, setShowPassword] = useState(false);
+  const [showCPassword, setShowCPassword] = useState(false);
   
 
   const validate = () => {
@@ -80,6 +81,12 @@ const ForgotPassword = () => {
   const handleMouseDownPassword = (event) => {
     event.preventDefault();
   };
+
+  const handleClickShowCPassword = () => setShowCPassword((show) => !show);
+
+  const handleMouseDownCPassword = (event) => {
+    event.preventDefault();
+  };
   return (
     <>
     <Navbar />
@@ -128,9 +135,9 @@ const ForgotPassword = () => {
           <InputLabel htmlFor="outlined-adornment-password">Confirm password</InputLabel>
           <OutlinedInput
             id="outlined-adornment-password"
-            type={showPassword ? 'text' : 'password'}
+            type={showCPassword ? 'text' : 'password'}
             fullWidth
-            value={password}
+            value={confirmPassword}
             onChange={(e) => setConfirmPassword(e.target.value)}
               error={!!errors.confirmPassword}
               helperText={errors.confirmPassword}
@@ -138,11 +145,11 @@ const ForgotPassword = () => {
               <InputAdornment position="end">
                 <IconButton
                   aria-label="toggle password visibility"
-                  onClick={handleClickShowPassword}
-                  onMouseDown={handleMouseDownPassword}
+                  onClick={handleClickShowCPassword}
+                  onMouseDown={handleMouseDownCPassword}
                   edge="end"
                 >
-                  {showPassword ? <VisibilityOff /> : <Visibility />}
+                  {showCPassword ? <VisibilityOff /> : <Visibility />}
                 </IconButton>
               </InputAdornment>
             }
